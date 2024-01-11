@@ -50,8 +50,11 @@ const resetPassword = catchAsync(async (req, res) => {
 });
 
 const resetPasswordInep = catchAsync(async (req, res) => {
-  await authService.resetPassword(req.query.token, req.body.password);
-  res.status(httpStatus.NO_CONTENT).send();
+  const { inep, password } = req.body;
+  await authService.resetPasswordPrimeiroAcesso(inep, password);
+  const user = await userService.updateAcessoTrue(inep);
+  const tokens = await tokenService.generateAuthTokens(user);
+  res.send({ user, tokens });
 });
 
 const sendVerificationEmail = catchAsync(async (req, res) => {

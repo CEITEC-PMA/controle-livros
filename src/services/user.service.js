@@ -88,6 +88,16 @@ const updateUserById = async (userId, updateBody) => {
   return user;
 };
 
+const updateAcessoTrue = async (inep) => {
+  const user = await getUserByInep(inep);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  user.acesso = 1;
+  await user.save();
+  return user;
+};
+
 /**
  * Delete user by id
  * @param {ObjectId} userId
@@ -110,5 +120,6 @@ module.exports = {
   getUserByEmail,
   getUserByInep,
   updateUserById,
+  updateAcessoTrue,
   deleteUserById,
 };

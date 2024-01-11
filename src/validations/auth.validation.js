@@ -63,6 +63,7 @@ const resetPasswordInep = {
     token: Joi.string().required(),
   }),
   body: Joi.object().keys({
+    inep: Joi.number().required(),
     password: Joi.string().required().custom(password),
   }),
 };

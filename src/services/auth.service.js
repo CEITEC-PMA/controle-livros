@@ -26,9 +26,8 @@ const loginUserWithInepAndPassword = async (inep, password) => {
   }
 
   if (user.delete === true) throw new ApiError(httpStatus.UNAUTHORIZED, 'Usuário não existe');
-  if (user.acesso) return user;
 
-  return { message: 'Primeiro acesso' };
+  return user;
 };
 
 /**
@@ -83,6 +82,15 @@ const resetPassword = async (resetPasswordToken, newPassword) => {
   }
 };
 
+const resetPasswordPrimeiroAcesso = async (inep, newPassword) => {
+  const user = await userService.getUserByInep(inep);
+  if (!user) {
+    throw new Error();
+  }
+  await userService.updateUserById(user.id, { password: newPassword });
+  await Token.deleteMany({ user: user.id, type: tokenTypes.RESET_PASSWORD });
+};
+
 /**
  * Verify email
  * @param {string} verifyEmailToken
@@ -108,5 +116,6 @@ module.exports = {
   logout,
   refreshAuth,
   resetPassword,
+  resetPasswordPrimeiroAcesso,
   verifyEmail,
 };
