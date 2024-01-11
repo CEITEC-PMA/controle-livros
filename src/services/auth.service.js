@@ -24,7 +24,11 @@ const loginUserWithInepAndPassword = async (inep, password) => {
   if (!user || !(await user.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect inep or password');
   }
-  return user;
+
+  if (user.delete === true) throw new ApiError(httpStatus.UNAUTHORIZED, 'Usuário não existe');
+  if (user.acesso) return user;
+
+  return { message: 'Primeiro acesso' };
 };
 
 /**
