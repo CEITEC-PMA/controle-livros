@@ -9,12 +9,12 @@ const router = express.Router();
 router.post('/register', validate(authValidation.register), authController.register);
 router.post('/register-inep', validate(authValidation.registerInep), authController.registerInep);
 router.post('/login', validate(authValidation.login), authController.login);
-router.post('/login-cpf', validate(authValidation.loginCpf), authController.loginCpf);
+router.post('/login-inep', validate(authValidation.loginInep), authController.loginInep);
 router.post('/logout', validate(authValidation.logout), authController.logout);
 router.post('/refresh-tokens', validate(authValidation.refreshTokens), authController.refreshTokens);
 router.post('/forgot-password', validate(authValidation.forgotPassword), authController.forgotPassword);
 router.post('/reset-password', validate(authValidation.resetPassword), authController.resetPassword);
-router.post('/reset-password-cpf', validate(authValidation.resetPasswordCpf), authController.resetPasswordCpf);
+router.post('/reset-password-inep', validate(authValidation.resetPasswordInep), authController.resetPasswordInep);
 router.post('/send-verification-email', auth(), authController.sendVerificationEmail);
 router.post('/verify-email', validate(authValidation.verifyEmail), authController.verifyEmail);
 

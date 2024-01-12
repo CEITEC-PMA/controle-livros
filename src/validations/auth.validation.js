@@ -27,7 +27,7 @@ const login = {
 
 const loginInep = {
   body: Joi.object().keys({
-    inep: Joi.string().required(),
+    inep: Joi.number().required(),
     password: Joi.string().required(),
   }),
 };
@@ -59,9 +59,9 @@ const resetPassword = {
   }),
 };
 
-const resetPasswordCpf = {
+const resetPasswordInep = {
   body: Joi.object().keys({
-    cpf: Joi.document().cpf(),
+    inep: Joi.number().required(),
     password: Joi.string().required().custom(password),
   }),
 };
@@ -81,6 +81,6 @@ module.exports = {
   refreshTokens,
   forgotPassword,
   resetPassword,
-  resetPasswordCpf,
+  resetPasswordInep,
   verifyEmail,
 };
