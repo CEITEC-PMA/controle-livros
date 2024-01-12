@@ -6,6 +6,8 @@ const createUnidade = {
     name: Joi.string().required(),
     inep: Joi.string().required(),
     fone: Joi.string().required(),
+    email: Joi.string().required().email(),
+    coordinates: Joi.array().items(Joi.number()).length(2).required(),
     endereco: {
       cep: Joi.string().required(),
       logradouro: Joi.string().required(),
