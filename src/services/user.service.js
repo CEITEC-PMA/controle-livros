@@ -19,12 +19,12 @@ const createUser = async (userBody) => {
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createUserCpf = async (userBody) => {
-  if (await User.isCpfTaken(userBody.cpf)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'CPF already taken');
+const createUserInep = async (userBody) => {
+  if (await User.isInepTaken(userBody.inep)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'INEP already taken');
   }
   // eslint-disable-next-line no-param-reassign
-  userBody.password = 'cpf123456';
+  userBody.password = 'inep123456';
   return User.create(userBody);
 };
 
@@ -115,7 +115,7 @@ const deleteUserById = async (userId) => {
 
 module.exports = {
   createUser,
-  createUserCpf,
+  createUserInep,
   queryUsers,
   getUserById,
   getUserByEmail,

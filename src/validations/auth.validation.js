@@ -10,12 +10,11 @@ const register = {
   }),
 };
 
-const registerCpf = {
+const registerInep = {
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    cpf: Joi.document().cpf(),
+    inep: Joi.number().required(),
     nome: Joi.string().required(),
-    cargo: Joi.string().required(),
   }),
 };
 
@@ -26,9 +25,9 @@ const login = {
   }),
 };
 
-const loginCpf = {
+const loginInep = {
   body: Joi.object().keys({
-    cpf: Joi.document().cpf(),
+    inep: Joi.string().required(),
     password: Joi.string().required(),
   }),
 };
@@ -75,9 +74,9 @@ const verifyEmail = {
 
 module.exports = {
   register,
-  registerCpf,
+  registerInep,
   login,
-  loginCpf,
+  loginInep,
   logout,
   refreshTokens,
   forgotPassword,

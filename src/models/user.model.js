@@ -23,9 +23,9 @@ const userSchema = mongoose.Schema(
         }
       },
     },
-    cpf: {
-      type: String,
-      required: [true, 'CPF não pode ficar vazio'],
+    inep: {
+      type: Number,
+      required: [true, 'INEP não pode ficar vazio'],
       unique: true,
       trim: true,
     },
@@ -85,8 +85,8 @@ userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
  * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
  * @returns {Promise<boolean>}
  */
-userSchema.statics.isCpfTaken = async function (cpf, excludeUserId) {
-  const user = await this.findOne({ cpf, _id: { $ne: excludeUserId } });
+userSchema.statics.isInepTaken = async function (inep, excludeUserId) {
+  const user = await this.findOne({ inep, _id: { $ne: excludeUserId } });
   return !!user;
 };
 

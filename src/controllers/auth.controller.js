@@ -8,8 +8,8 @@ const register = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send({ user, tokens });
 });
 
-const registerCpf = catchAsync(async (req, res) => {
-  const user = await userService.createUserCpf(req.body);
+const registerInep = catchAsync(async (req, res) => {
+  const user = await userService.createUserInep(req.body);
   const tokens = await tokenService.generateAuthTokens(user);
   res.status(httpStatus.CREATED).send({ user, tokens });
 });
@@ -70,7 +70,7 @@ const verifyEmail = catchAsync(async (req, res) => {
 
 module.exports = {
   register,
-  registerCpf,
+  registerInep,
   login,
   loginCpf,
   logout,

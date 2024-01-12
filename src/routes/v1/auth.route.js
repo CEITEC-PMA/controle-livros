@@ -7,7 +7,7 @@ const auth = require('../../middlewares/auth');
 const router = express.Router();
 
 router.post('/register', validate(authValidation.register), authController.register);
-router.post('/register-cpf', validate(authValidation.registerCpf), authController.registerCpf);
+router.post('/register-inep', validate(authValidation.registerInep), authController.registerInep);
 router.post('/login', validate(authValidation.login), authController.login);
 router.post('/login-cpf', validate(authValidation.loginCpf), authController.loginCpf);
 router.post('/logout', validate(authValidation.logout), authController.logout);
