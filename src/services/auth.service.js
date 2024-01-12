@@ -19,8 +19,8 @@ const loginUserWithEmailAndPassword = async (email, password) => {
   return user;
 };
 
-const loginUserWithInepAndPassword = async (inep, password) => {
-  const user = await userService.getUserByInep(inep);
+const loginUserWithCpfAndPassword = async (cpf, password) => {
+  const user = await userService.getUserByCpf(cpf);
   if (!user || !(await user.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect inep or password');
   }
@@ -82,8 +82,8 @@ const resetPassword = async (resetPasswordToken, newPassword) => {
   }
 };
 
-const resetPasswordPrimeiroAcesso = async (inep, newPassword) => {
-  const user = await userService.getUserByInep(inep);
+const resetPasswordPrimeiroAcesso = async (cpf, newPassword) => {
+  const user = await userService.getUserByCpf(cpf);
   if (!user) {
     throw new Error();
   }
@@ -112,7 +112,7 @@ const verifyEmail = async (verifyEmailToken) => {
 
 module.exports = {
   loginUserWithEmailAndPassword,
-  loginUserWithInepAndPassword,
+  loginUserWithCpfAndPassword,
   logout,
   refreshAuth,
   resetPassword,

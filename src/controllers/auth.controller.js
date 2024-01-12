@@ -8,8 +8,8 @@ const register = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send({ user, tokens });
 });
 
-const registerInep = catchAsync(async (req, res) => {
-  const user = await userService.createUserInep(req.body);
+const registerCpf = catchAsync(async (req, res) => {
+  const user = await userService.createUserCpf(req.body);
   const tokens = await tokenService.generateAuthTokens(user);
   res.status(httpStatus.CREATED).send({ user, tokens });
 });
@@ -21,9 +21,9 @@ const login = catchAsync(async (req, res) => {
   res.send({ user, tokens });
 });
 
-const loginInep = catchAsync(async (req, res) => {
-  const { inep, password } = req.body;
-  const user = await authService.loginUserWithInepAndPassword(inep, password);
+const loginCpf = catchAsync(async (req, res) => {
+  const { cpf, password } = req.body;
+  const user = await authService.loginUserWithCpfAndPassword(cpf, password);
   const tokens = await tokenService.generateAuthTokens(user);
   res.send({ user, tokens });
 });
@@ -49,10 +49,10 @@ const resetPassword = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const resetPasswordInep = catchAsync(async (req, res) => {
-  const { inep, password } = req.body;
-  await authService.resetPasswordPrimeiroAcesso(inep, password);
-  const user = await userService.updateAcessoTrue(inep);
+const resetPasswordCpf = catchAsync(async (req, res) => {
+  const { cpf, password } = req.body;
+  await authService.resetPasswordPrimeiroAcesso(cpf, password);
+  const user = await userService.updateAcessoTrue(cpf);
   const tokens = await tokenService.generateAuthTokens(user);
   res.send({ user, tokens });
 });
@@ -70,14 +70,14 @@ const verifyEmail = catchAsync(async (req, res) => {
 
 module.exports = {
   register,
-  registerInep,
+  registerCpf,
   login,
-  loginInep,
+  loginCpf,
   logout,
   refreshTokens,
   forgotPassword,
   resetPassword,
-  resetPasswordInep,
+  resetPasswordCpf,
   sendVerificationEmail,
   verifyEmail,
 };

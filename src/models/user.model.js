@@ -19,13 +19,13 @@ const userSchema = mongoose.Schema(
       lowercase: true,
       validate(value) {
         if (!validator.isEmail(value)) {
-          throw new Error('Invalid email');
+          throw new Error('Email invalido');
         }
       },
     },
-    inep: {
-      type: Number,
-      required: true,
+    cpf: {
+      type: String,
+      required: [true, 'CPF não pode ficar vazio'],
       unique: true,
       trim: true,
     },
@@ -36,7 +36,7 @@ const userSchema = mongoose.Schema(
       minlength: 8,
       validate(value) {
         if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
-          throw new Error('Password must contain at least one letter and one number');
+          throw new Error('A senha deve conter pelo menos uma letra e um número');
         }
       },
       private: true, // used by the toJSON plugin
@@ -85,8 +85,8 @@ userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
  * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
  * @returns {Promise<boolean>}
  */
-userSchema.statics.isInepTaken = async function (inep, excludeUserId) {
-  const user = await this.findOne({ inep, _id: { $ne: excludeUserId } });
+userSchema.statics.isCpfTaken = async function (cpf, excludeUserId) {
+  const user = await this.findOne({ cpf, _id: { $ne: excludeUserId } });
   return !!user;
 };
 

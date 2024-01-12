@@ -19,12 +19,12 @@ const createUser = async (userBody) => {
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createUserInep = async (userBody) => {
-  if (await User.isInepTaken(userBody.inep)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Inep already taken');
+const createUserCpf = async (userBody) => {
+  if (await User.isCpfTaken(userBody.cpf)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'CPF already taken');
   }
   // eslint-disable-next-line no-param-reassign
-  userBody.password = 'inep123456';
+  userBody.password = 'cpf123456';
   return User.create(userBody);
 };
 
@@ -65,8 +65,12 @@ const getUserByEmail = async (email) => {
  * @param {number} inep
  * @returns {Promise<User>}
  */
-const getUserByInep = async (inep) => {
-  return User.findOne({ inep });
+const getUserByCpf = async (cpf) => {
+  const user = await User.findOne({ cpf });
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Usuario não encontrado!');
+  }
+  return user;
 };
 
 /**
@@ -88,11 +92,8 @@ const updateUserById = async (userId, updateBody) => {
   return user;
 };
 
-const updateAcessoTrue = async (inep) => {
-  const user = await getUserByInep(inep);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
+const updateAcessoTrue = async (cpf) => {
+  const user = await getUserByCpf(cpf);
   user.acesso = 1;
   await user.save();
   return user;
@@ -114,11 +115,11 @@ const deleteUserById = async (userId) => {
 
 module.exports = {
   createUser,
-  createUserInep,
+  createUserCpf,
   queryUsers,
   getUserById,
   getUserByEmail,
-  getUserByInep,
+  getUserByCpf,
   updateUserById,
   updateAcessoTrue,
   deleteUserById,
