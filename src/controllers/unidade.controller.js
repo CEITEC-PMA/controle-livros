@@ -9,10 +9,10 @@ const createUnidade = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(unidade);
 });
 
-const getUsers = catchAsync(async (req, res) => {
+const showAllUnidade = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await userService.queryUsers(filter, options);
+  const result = await unidadeService.queryUnidades(filter, options);
   res.send(result);
 });
 
@@ -45,7 +45,7 @@ const deleteUser = catchAsync(async (req, res) => {
 
 module.exports = {
   createUnidade,
-  getUsers,
+  showAllUnidade,
   getUser,
   getUserConnected,
   updateUser,

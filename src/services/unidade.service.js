@@ -47,9 +47,9 @@ const createUnidade = async (userBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryUsers = async (filter, options) => {
-  const users = await User.paginate(filter, options);
-  return users;
+const queryUnidades = async (filter, options) => {
+  const unidades = await Unidade.paginate(filter, options);
+  return unidades;
 };
 
 /**
@@ -125,7 +125,7 @@ const deleteUserById = async (userId) => {
 
 module.exports = {
   createUnidade,
-  queryUsers,
+  queryUnidades,
   getUserById,
   getUserByEmail,
   getUserByCpf,

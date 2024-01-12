@@ -21,7 +21,7 @@ const createUnidade = {
   }),
 };
 
-const getUsers = {
+const showAllUnidade = {
   query: Joi.object().keys({
     name: Joi.string(),
     role: Joi.string(),
@@ -58,7 +58,7 @@ const deleteUser = {
 
 module.exports = {
   createUnidade,
-  getUsers,
+  showAllUnidade,
   getUser,
   updateUser,
   deleteUser,
