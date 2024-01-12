@@ -45,6 +45,8 @@ const unidadeSchema = mongoose.Schema(
       localidade: { type: String, required: true },
       uf: { type: String, required: true },
     },
+    turma: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Turma' }],
+    funcionario: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Funcionario' }],
     isEmailVerified: {
       type: Boolean,
       default: false,
