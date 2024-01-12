@@ -31,9 +31,9 @@ const showAllUnidade = {
   }),
 };
 
-const getUser = {
+const showUnidadeId = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    unidadeId: Joi.string().custom(objectId),
   }),
 };
 
@@ -59,7 +59,7 @@ const deleteUser = {
 module.exports = {
   createUnidade,
   showAllUnidade,
-  getUser,
+  showUnidadeId,
   updateUser,
   deleteUser,
 };

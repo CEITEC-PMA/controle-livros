@@ -16,8 +16,8 @@ const showAllUnidade = catchAsync(async (req, res) => {
   res.send(result);
 });
 
-const getUser = catchAsync(async (req, res) => {
-  const user = await userService.getUserById(req.params.userId);
+const showUnidadeId = catchAsync(async (req, res) => {
+  const user = await unidadeService.getUnidadeById(req.params.unidadeId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -46,7 +46,7 @@ const deleteUser = catchAsync(async (req, res) => {
 module.exports = {
   createUnidade,
   showAllUnidade,
-  getUser,
+  showUnidadeId,
   getUserConnected,
   updateUser,
   deleteUser,

@@ -13,6 +13,8 @@ router
   .post(auth('criarUnidade'), validate(unidadeValidation.createUnidade), unidadeController.createUnidade)
   .get(validate(unidadeValidation.showAllUnidade), unidadeController.showAllUnidade);
 
+router.route('/:unidadeId').get(validate(unidadeValidation.showUnidadeId), unidadeController.showUnidadeId);
+
 module.exports = router;
 
 /**

@@ -57,8 +57,8 @@ const queryUnidades = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<User>}
  */
-const getUserById = async (id) => {
-  return User.findById(id);
+const getUnidadeById = async (unidadeId) => {
+  return Unidade.findById(unidadeId);
 };
 
 /**
@@ -126,7 +126,7 @@ const deleteUserById = async (userId) => {
 module.exports = {
   createUnidade,
   queryUnidades,
-  getUserById,
+  getUnidadeById,
   getUserByEmail,
   getUserByCpf,
   updateUserById,
