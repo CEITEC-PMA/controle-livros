@@ -4,13 +4,13 @@ const { toJSON, paginate } = require('./plugins');
 
 const unidadeSchema = mongoose.Schema(
   {
-    nome: {
+    name: {
       type: String,
       required: true,
       trim: true,
     },
     inep: {
-      type: String,
+      type: Number,
       required: true,
       trim: true,
     },

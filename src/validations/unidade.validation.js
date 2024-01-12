@@ -4,7 +4,7 @@ const { password, objectId } = require('./custom.validation');
 const createUnidade = {
   body: Joi.object().keys({
     name: Joi.string().required(),
-    inep: Joi.string().required(),
+    inep: Joi.number().integer().required(),
     fone: Joi.string().required(),
     email: Joi.string().required().email(),
     coordinates: Joi.array().items(Joi.number()).length(2).required(),

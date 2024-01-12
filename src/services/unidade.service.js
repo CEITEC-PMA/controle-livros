@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
+const Unidade = require('../models/unidade.model');
 
 /**
  * Create a user
@@ -8,25 +9,33 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<User>}
  */
 const createUnidade = async (userBody) => {
-  const unidade = await Unidade.findById({ inep: userBody.inep });
-  if (await User.isEmailTaken(userBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  const existeUnidade = await Unidade.find({ inep: userBody.inep });
+  if (existeUnidade.length > 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Unidade já existe!');
   }
-  return User.create(userBody);
-};
 
-/**
- * Create a user
- * @param {Object} userBody
- * @returns {Promise<User>}
- */
-const createUserCpf = async (userBody) => {
-  if (await User.isCpfTaken(userBody.cpf)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'CPF already taken');
-  }
-  // eslint-disable-next-line no-param-reassign
-  userBody.password = 'cpf123456';
-  return User.create(userBody);
+  const unidade = await Unidade.create({
+    name: userBody.name,
+    inep: userBody.inep,
+    fone: userBody.fone,
+    email: userBody.email,
+    endereco: {
+      cep: userBody.endereco.cep,
+      logradouro: userBody.endereco.logradouro,
+      complemento: userBody.endereco.complemento,
+      quadra: userBody.endereco.quadra,
+      lote: userBody.endereco.lote,
+      bairro: userBody.endereco.bairro,
+      localidade: userBody.endereco.localidade,
+      uf: userBody.endereco.uf,
+    },
+    location: {
+      type: 'Point',
+      coordinates: userBody.coordinates,
+    },
+  });
+
+  return unidade;
 };
 
 /**
@@ -116,7 +125,6 @@ const deleteUserById = async (userId) => {
 
 module.exports = {
   createUnidade,
-  createUserCpf,
   queryUsers,
   getUserById,
   getUserByEmail,
