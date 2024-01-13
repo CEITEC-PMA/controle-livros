@@ -9,13 +9,14 @@ const { userOneAccessToken, adminAccessToken } = require('../fixtures/token.fixt
 
 setupTestDB();
 
-describe('User routes', () => {
-  describe('POST /v1/users', () => {
-    let newUser;
+describe('Unidade routes', () => {
+  describe('POST /v1/unidade', () => {
+    let newUnidade;
 
     beforeEach(() => {
-      newUser = {
+      newUnidade = {
         name: faker.internet.userName(),
+        inep: faker.internet.userName(),
         email: faker.internet.email().toLowerCase(),
         password: 'password1',
         role: 'user',
@@ -28,32 +29,37 @@ describe('User routes', () => {
       const res = await request(app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
-        .send(newUser)
+        .send(newUnidade)
         .expect(httpStatus.CREATED);
 
       expect(res.body).not.toHaveProperty('password');
       expect(res.body).toEqual({
         id: expect.anything(),
-        name: newUser.name,
-        email: newUser.email,
-        role: newUser.role,
+        name: newUnidade.name,
+        email: newUnidade.email,
+        role: newUnidade.role,
         isEmailVerified: false,
       });
 
       const dbUser = await User.findById(res.body.id);
       expect(dbUser).toBeDefined();
-      expect(dbUser.password).not.toBe(newUser.password);
-      expect(dbUser).toMatchObject({ name: newUser.name, email: newUser.email, role: newUser.role, isEmailVerified: false });
+      expect(dbUser.password).not.toBe(newUnidade.password);
+      expect(dbUser).toMatchObject({
+        name: newUnidade.name,
+        email: newUnidade.email,
+        role: newUnidade.role,
+        isEmailVerified: false,
+      });
     });
 
     test('should be able to create an admin as well', async () => {
       await insertUsers([admin]);
-      newUser.role = 'admin';
+      newUnidade.role = 'admin';
 
       const res = await request(app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
-        .send(newUser)
+        .send(newUnidade)
         .expect(httpStatus.CREATED);
 
       expect(res.body.role).toBe('admin');
@@ -63,7 +69,7 @@ describe('User routes', () => {
     });
 
     test('should return 401 error if access token is missing', async () => {
-      await request(app).post('/v1/users').send(newUser).expect(httpStatus.UNAUTHORIZED);
+      await request(app).post('/v1/users').send(newUnidade).expect(httpStatus.UNAUTHORIZED);
     });
 
     test('should return 403 error if logged in user is not admin', async () => {
@@ -72,70 +78,70 @@ describe('User routes', () => {
       await request(app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${userOneAccessToken}`)
-        .send(newUser)
+        .send(newUnidade)
         .expect(httpStatus.FORBIDDEN);
     });
 
     test('should return 400 error if email is invalid', async () => {
       await insertUsers([admin]);
-      newUser.email = 'invalidEmail';
+      newUnidade.email = 'invalidEmail';
 
       await request(app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
-        .send(newUser)
+        .send(newUnidade)
         .expect(httpStatus.BAD_REQUEST);
     });
 
     test('should return 400 error if email is already used', async () => {
       await insertUsers([admin, userOne]);
-      newUser.email = userOne.email;
+      newUnidade.email = userOne.email;
 
       await request(app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
-        .send(newUser)
+        .send(newUnidade)
         .expect(httpStatus.BAD_REQUEST);
     });
 
     test('should return 400 error if password length is less than 8 characters', async () => {
       await insertUsers([admin]);
-      newUser.password = 'passwo1';
+      newUnidade.password = 'passwo1';
 
       await request(app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
-        .send(newUser)
+        .send(newUnidade)
         .expect(httpStatus.BAD_REQUEST);
     });
 
     test('should return 400 error if password does not contain both letters and numbers', async () => {
       await insertUsers([admin]);
-      newUser.password = 'password';
+      newUnidade.password = 'password';
 
       await request(app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
-        .send(newUser)
+        .send(newUnidade)
         .expect(httpStatus.BAD_REQUEST);
 
-      newUser.password = '1111111';
+      newUnidade.password = '1111111';
 
       await request(app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
-        .send(newUser)
+        .send(newUnidade)
         .expect(httpStatus.BAD_REQUEST);
     });
 
     test('should return 400 error if role is neither user nor admin', async () => {
       await insertUsers([admin]);
-      newUser.role = 'invalid';
+      newUnidade.role = 'invalid';
 
       await request(app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
-        .send(newUser)
+        .send(newUnidade)
         .expect(httpStatus.BAD_REQUEST);
     });
   });

@@ -1,5 +1,5 @@
 const request = require('supertest');
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 const httpStatus = require('http-status');
 const httpMocks = require('node-mocks-http');
 const moment = require('moment');
@@ -19,32 +19,35 @@ const { userOneAccessToken, adminAccessToken } = require('../fixtures/token.fixt
 setupTestDB();
 
 describe('Auth routes', () => {
-  describe('POST /v1/auth/register', () => {
+  describe('POST /v1/auth/register-inep', () => {
     let newUser;
     beforeEach(() => {
       newUser = {
-        name: faker.name.findName(),
+        nome: faker.internet.userName(),
         email: faker.internet.email().toLowerCase(),
-        password: 'password1',
+        inep: faker.number.int(),
       };
     });
 
-    test('should return 201 and successfully register user if request data is ok', async () => {
-      const res = await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.CREATED);
+    test('deve retornar 201 e registrar o usuário com sucesso se os dados da solicitação estiverem ok', async () => {
+      const res = await request(app).post('/v1/auth/register-inep').send(newUser).expect(httpStatus.CREATED);
 
       expect(res.body.user).not.toHaveProperty('password');
       expect(res.body.user).toEqual({
         id: expect.anything(),
-        name: newUser.name,
+        nome: newUser.nome,
         email: newUser.email,
+        inep: newUser.inep,
         role: 'user',
+        acesso: 0,
+        deletado: false,
         isEmailVerified: false,
       });
 
       const dbUser = await User.findById(res.body.user.id);
       expect(dbUser).toBeDefined();
       expect(dbUser.password).not.toBe(newUser.password);
-      expect(dbUser).toMatchObject({ name: newUser.name, email: newUser.email, role: 'user', isEmailVerified: false });
+      expect(dbUser).toMatchObject({ nome: newUser.nome, email: newUser.email, role: 'user', isEmailVerified: false });
 
       expect(res.body.tokens).toEqual({
         access: { token: expect.anything(), expires: expect.anything() },
@@ -52,51 +55,61 @@ describe('Auth routes', () => {
       });
     });
 
-    test('should return 400 error if email is invalid', async () => {
+    test('deve retornar erro 400 se o e-mail for inválido', async () => {
       newUser.email = 'invalidEmail';
 
-      await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      await request(app).post('/v1/auth/register-inep').send(newUser).expect(httpStatus.BAD_REQUEST);
     });
 
-    test('should return 400 error if email is already used', async () => {
+    test('deve retornar erro 400 se o e-mail já estiver em uso', async () => {
       await insertUsers([userOne]);
       newUser.email = userOne.email;
 
-      await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      await request(app).post('/v1/auth/register-inep').send(newUser).expect(httpStatus.BAD_REQUEST);
     });
 
-    test('should return 400 error if password length is less than 8 characters', async () => {
+    test('deve retornar erro 400 se inep já estiver em uso', async () => {
+      await insertUsers([userOne]);
+      newUser.inep = userOne.inep;
+
+      await request(app).post('/v1/auth/register-inep').send(newUser).expect(httpStatus.BAD_REQUEST);
+    });
+
+    test('deve retornar erro 400 se o comprimento da senha for menor que 8 caracteres', async () => {
       newUser.password = 'passwo1';
 
-      await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      await request(app).post('/v1/auth/register-inep').send(newUser).expect(httpStatus.BAD_REQUEST);
     });
 
-    test('should return 400 error if password does not contain both letters and numbers', async () => {
+    test('deve retornar erro 400 se a senha não contiver letras e números', async () => {
       newUser.password = 'password';
 
-      await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      await request(app).post('/v1/auth/register-inep').send(newUser).expect(httpStatus.BAD_REQUEST);
 
       newUser.password = '11111111';
 
-      await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+      await request(app).post('/v1/auth/register-inep').send(newUser).expect(httpStatus.BAD_REQUEST);
     });
   });
 
-  describe('POST /v1/auth/login', () => {
-    test('should return 200 and login user if email and password match', async () => {
+  describe('POST /v1/auth/login-inep', () => {
+    test('deve retornar 200 no login se o e-mail e a senha corresponderem', async () => {
       await insertUsers([userOne]);
       const loginCredentials = {
-        email: userOne.email,
+        inep: userOne.inep,
         password: userOne.password,
       };
 
-      const res = await request(app).post('/v1/auth/login').send(loginCredentials).expect(httpStatus.OK);
+      const res = await request(app).post('/v1/auth/login-inep').send(loginCredentials).expect(httpStatus.OK);
 
       expect(res.body.user).toEqual({
         id: expect.anything(),
-        name: userOne.name,
+        nome: userOne.nome,
         email: userOne.email,
+        inep: userOne.inep,
         role: userOne.role,
+        acesso: userOne.acesso,
+        deletado: userOne.deletado,
         isEmailVerified: userOne.isEmailVerified,
       });
 
@@ -106,15 +119,15 @@ describe('Auth routes', () => {
       });
     });
 
-    test('should return 401 error if there are no users with that email', async () => {
+    test('deve retornar erro 401 se não houver usuários com esse inep', async () => {
       const loginCredentials = {
-        email: userOne.email,
+        inep: userOne.inep,
         password: userOne.password,
       };
 
-      const res = await request(app).post('/v1/auth/login').send(loginCredentials).expect(httpStatus.UNAUTHORIZED);
+      const res = await request(app).post('/v1/auth/login-inep').send(loginCredentials).expect(httpStatus.UNAUTHORIZED);
 
-      expect(res.body).toEqual({ code: httpStatus.UNAUTHORIZED, message: 'Incorrect email or password' });
+      expect(res.body).toEqual({ code: httpStatus.UNAUTHORIZED, message: 'Incorrect inep or password' });
     });
 
     test('should return 401 error if password is wrong', async () => {
@@ -124,7 +137,7 @@ describe('Auth routes', () => {
         password: 'wrongPassword1',
       };
 
-      const res = await request(app).post('/v1/auth/login').send(loginCredentials).expect(httpStatus.UNAUTHORIZED);
+      const res = await request(app).post('/v1/auth/login-inep').send(loginCredentials).expect(httpStatus.UNAUTHORIZED);
 
       expect(res.body).toEqual({ code: httpStatus.UNAUTHORIZED, message: 'Incorrect email or password' });
     });
@@ -262,7 +275,7 @@ describe('Auth routes', () => {
     });
   });
 
-  describe('POST /v1/auth/reset-password', () => {
+  describe('POST /v1/auth/reset-password-inep', () => {
     test('should return 204 and reset the password', async () => {
       await insertUsers([userOne]);
       const expires = moment().add(config.jwt.resetPasswordExpirationMinutes, 'minutes');
