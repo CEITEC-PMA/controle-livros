@@ -37,15 +37,27 @@ const showUnidadeId = {
   }),
 };
 
-const updateUser = {
+const updateUnidadeId = {
   params: Joi.object().keys({
-    userId: Joi.required().custom(objectId),
+    unidadeId: Joi.required().custom(objectId),
   }),
   body: Joi.object()
     .keys({
-      email: Joi.string().email(),
-      password: Joi.string().custom(password),
-      name: Joi.string(),
+      name: Joi.string().optional(),
+      inep: Joi.number().integer().optional(),
+      fone: Joi.string().optional(),
+      email: Joi.string().optional().email(),
+      coordinates: Joi.array().items(Joi.number()).length(2).optional(),
+      endereco: {
+        cep: Joi.string().optional(),
+        logradouro: Joi.string().optional(),
+        quadra: Joi.string().optional().allow(''),
+        lote: Joi.string().optional().allow(''),
+        complemento: Joi.string().optional().allow(''),
+        bairro: Joi.string().optional().allow(''),
+        localidade: Joi.string().optional(),
+        uf: Joi.string().optional(),
+      },
     })
     .min(1),
 };
@@ -60,6 +72,6 @@ module.exports = {
   createUnidade,
   showAllUnidade,
   showUnidadeId,
-  updateUser,
+  updateUnidadeId,
   deleteUser,
 };

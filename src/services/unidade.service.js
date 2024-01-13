@@ -58,7 +58,11 @@ const queryUnidades = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUnidadeById = async (unidadeId) => {
-  return Unidade.findById(unidadeId);
+  const unidade = await Unidade.findById(unidadeId);
+  if (!unidade) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Unidade not found');
+  }
+  return unidade;
 };
 
 /**
@@ -85,21 +89,15 @@ const getUserByCpf = async (cpf) => {
 
 /**
  * Update user by id
- * @param {ObjectId} userId
+ * @param {ObjectId} unidadeId
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateUserById = async (userId, updateBody) => {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-  if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
-  }
-  Object.assign(user, updateBody);
-  await user.save();
-  return user;
+const updateUnidadeById = async (unidadeId, updateBody) => {
+  const unidade = await getUnidadeById(unidadeId);
+  Object.assign(unidade, updateBody);
+  await unidade.save();
+  return unidade;
 };
 
 const updateAcessoTrue = async (cpf) => {
@@ -129,7 +127,7 @@ module.exports = {
   getUnidadeById,
   getUserByEmail,
   getUserByCpf,
-  updateUserById,
+  updateUnidadeById,
   updateAcessoTrue,
   deleteUserById,
 };
