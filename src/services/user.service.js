@@ -53,11 +53,11 @@ const getUserByEmail = async (email) => {
 
 /**
  * Get user by email
- * @param {number} inep
+ * @param {number} username
  * @returns {Promise<User>}
  */
-const getUserByInep = async (inep) => {
-  const user = await User.findOne({ inep });
+const getUserByUsername = async (username) => {
+  const user = await User.findOne({ username });
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Usuario não encontrado!');
   }
@@ -83,8 +83,8 @@ const updateUserById = async (userId, updateBody) => {
   return user;
 };
 
-const updateAcessoTrue = async (cpf) => {
-  const user = await getUserByInep(cpf);
+const updateAcessoTrue = async (username) => {
+  const user = await getUserByUsername(username);
   user.acesso = 1;
   await user.save();
   return user;
@@ -109,7 +109,7 @@ module.exports = {
   queryUsers,
   getUserById,
   getUserByEmail,
-  getUserByInep,
+  getUserByUsername,
   updateUserById,
   updateAcessoTrue,
   deleteUserById,

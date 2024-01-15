@@ -11,10 +11,10 @@ const { tokenTypes } = require('../config/tokens');
  * @param {string} password
  * @returns {Promise<User>}
  */
-const loginUserWithInepAndPassword = async (inep, password) => {
-  const user = await userService.getUserByInep(inep);
+const loginUserWithUsernameAndPassword = async (username, password) => {
+  const user = await userService.getUserByUsername(username);
   if (!user || !(await user.isPasswordMatch(password))) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect inep or password');
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Password ou Username incorreto');
   }
 
   if (user.delete === true) throw new ApiError(httpStatus.UNAUTHORIZED, 'Usuário não existe');
@@ -103,7 +103,7 @@ const verifyEmail = async (verifyEmailToken) => {
 };
 
 module.exports = {
-  loginUserWithInepAndPassword,
+  loginUserWithUsernameAndPassword,
   logout,
   refreshAuth,
   resetPassword,
