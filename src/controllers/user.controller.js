@@ -25,8 +25,8 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const getUserConnected = catchAsync(async (req, res) => {
-  const { inep } = req.user;
-  const user = await userService.getUserByInep(inep);
+  const { username } = req.user;
+  const user = await userService.getUserByUsername(username);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
