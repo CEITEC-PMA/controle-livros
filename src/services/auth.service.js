@@ -13,6 +13,9 @@ const { tokenTypes } = require('../config/tokens');
  */
 const loginUserWithUsernameAndPassword = async (username, password) => {
   const user = await userService.getUserByUsername(username);
+  if (user.ativo === false) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Usuário inativo. module o usuário em uma unidade para ativar');
+  }
   if (!user || !(await user.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password ou Username incorreto');
   }
