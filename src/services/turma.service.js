@@ -1,39 +1,27 @@
 const httpStatus = require('http-status');
-const { User } = require('../models');
+const { Turma } = require('../models');
 const ApiError = require('../utils/ApiError');
 const Unidade = require('../models/unidade.model');
+const { unidadeService } = require('.');
 
 /**
  * Create a user
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createUnidade = async (userBody) => {
-  const existeUnidade = await Unidade.find({ inep: userBody.inep });
-  if (existeUnidade.length > 0) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Unidade já existe!');
-  }
-
-  const unidade = await Unidade.create({
-    userId: userBody.userId,
-    fone: userBody.fone,
-    endereco: {
-      cep: userBody.endereco.cep,
-      logradouro: userBody.endereco.logradouro,
-      complemento: userBody.endereco.complemento,
-      quadra: userBody.endereco.quadra,
-      lote: userBody.endereco.lote,
-      bairro: userBody.endereco.bairro,
-      localidade: userBody.endereco.localidade,
-      uf: userBody.endereco.uf,
-    },
-    location: {
-      type: 'Point',
-      coordinates: userBody.coordinates,
-    },
+const createTurma = async (unidadeId, userBody) => {
+  const turma = await Turma.create({
+    unidadeId,
+    nameTurma: userBody.nameTurma,
+    qtdeAlunos: userBody.qtdeAlunos,
+    qtdeProf: userBody.qtdeProf,
   });
 
-  return unidade;
+  const unidade = await unidadeService.getUnidadeById(unidadeId);
+  unidade.turma = turma.id;
+  await unidade.save();
+
+  return turma;
 };
 
 /**
@@ -121,7 +109,7 @@ const deleteUserById = async (userId) => {
 };
 
 module.exports = {
-  createUnidade,
+  createTurma,
   queryUnidades,
   getUnidadeById,
   getUserByEmail,

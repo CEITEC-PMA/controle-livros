@@ -1,21 +1,11 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
-const createUnidade = {
+const createTurma = {
   body: Joi.object().keys({
-    inep: Joi.number().integer().required(),
-    fone: Joi.string().required(),
-    coordinates: Joi.array().items(Joi.number()).length(2).required(),
-    endereco: {
-      cep: Joi.string().required(),
-      logradouro: Joi.string().required(),
-      quadra: Joi.string().optional().allow(''),
-      lote: Joi.string().optional().allow(''),
-      complemento: Joi.string().optional().allow(''),
-      bairro: Joi.string().optional().allow(''),
-      localidade: Joi.string().required(),
-      uf: Joi.string().required(),
-    },
+    nameTurma: Joi.string().required(),
+    qtdeAlunos: Joi.number().required(),
+    qtdeProf: Joi.number().required(),
   }),
 };
 
@@ -67,7 +57,7 @@ const deleteUser = {
 };
 
 module.exports = {
-  createUnidade,
+  createTurma,
   showAllUnidade,
   showUnidadeId,
   updateUnidadeId,

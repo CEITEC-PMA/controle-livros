@@ -10,13 +10,13 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('criarUnidade'), validate(unidadeValidation.createUnidade), unidadeController.createUnidade)
+  .post(auth('create'), validate(unidadeValidation.createUnidade), unidadeController.createUnidade)
   .get(validate(unidadeValidation.showAllUnidade), unidadeController.showAllUnidade);
 
 router
   .route('/:unidadeId')
   .get(validate(unidadeValidation.showUnidadeId), unidadeController.showUnidadeId)
-  .patch(validate(unidadeValidation.updateUnidadeId), unidadeController.updateUnidadeId);
+  .patch(auth('create'), validate(unidadeValidation.updateUnidadeId), unidadeController.updateUnidadeId);
 
 module.exports = router;
 

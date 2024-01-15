@@ -26,15 +26,18 @@ const getUser = {
   }),
 };
 
-const updateUser = {
+const userUpdate = {
   params: Joi.object().keys({
     userId: Joi.required().custom(objectId),
   }),
   body: Joi.object()
     .keys({
+      unidadeId: Joi.required().custom(objectId),
       email: Joi.string().email(),
-      password: Joi.string().custom(password),
-      name: Joi.string(),
+      nome: Joi.string(),
+      role: Joi.string(),
+      ativo: Joi.boolean(),
+      deletado: Joi.boolean(),
     })
     .min(1),
 };
@@ -49,6 +52,6 @@ module.exports = {
   createUser,
   getUsers,
   getUser,
-  updateUser,
+  userUpdate,
   deleteUser,
 };

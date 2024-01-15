@@ -1,14 +1,9 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
 const { toJSON, paginate } = require('./plugins');
 
 const unidadeSchema = mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    userId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     inep: {
       type: Number,
       required: true,
@@ -18,18 +13,6 @@ const unidadeSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      lowercase: true,
-      validate(value) {
-        if (!validator.isEmail(value)) {
-          throw new Error('Email invalido');
-        }
-      },
     },
     location: {
       type: { type: String },

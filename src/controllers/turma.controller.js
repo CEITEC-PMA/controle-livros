@@ -2,18 +2,17 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { userService, unidadeService } = require('../services');
+const { turmaService } = require('../services');
 
-const createUnidade = catchAsync(async (req, res) => {
-  console.log(req.user);
-  // const unidade = await unidadeService.createUnidade(req.body);
-  // res.status(httpStatus.CREATED).send(unidade);
+const createTurma = catchAsync(async (req, res) => {
+  const { id } = req.user;
+  const turma = await turmaService.createTurma(id, req.body);
+  res.status(httpStatus.CREATED).send(turma);
 });
 
 const showAllUnidade = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  console.log(req.query);
   const result = await unidadeService.queryUnidades(filter, options);
   res.send(result);
 });
@@ -37,7 +36,7 @@ const deleteUser = catchAsync(async (req, res) => {
 });
 
 module.exports = {
-  createUnidade,
+  createTurma,
   showAllUnidade,
   showUnidadeId,
   updateUnidadeId,

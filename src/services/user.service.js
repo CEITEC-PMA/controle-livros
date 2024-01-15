@@ -8,20 +8,11 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<User>}
  */
 const createUser = async (userBody) => {
-  if (await User.isEmailTaken(userBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  if (await User.isUsernameTaken(userBody.username)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Usuário já existe');
   }
-  return User.create(userBody);
-};
-
-/**
- * Create a user
- * @param {Object} userBody
- * @returns {Promise<User>}
- */
-const createUserInep = async (userBody) => {
-  if (await User.isInepTaken(userBody.inep)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'INEP already taken');
+  if (await User.isEmailTaken(userBody.email)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email já existe');
   }
   // eslint-disable-next-line no-param-reassign
   userBody.password = 'inep123456';
@@ -115,7 +106,6 @@ const deleteUserById = async (userId) => {
 
 module.exports = {
   createUser,
-  createUserInep,
   queryUsers,
   getUserById,
   getUserByEmail,

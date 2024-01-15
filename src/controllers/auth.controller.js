@@ -8,12 +8,6 @@ const register = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send({ user, tokens });
 });
 
-const registerInep = catchAsync(async (req, res) => {
-  const user = await userService.createUserInep(req.body);
-  const tokens = await tokenService.generateAuthTokens(user);
-  res.status(httpStatus.CREATED).send({ user, tokens });
-});
-
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await authService.loginUserWithEmailAndPassword(email, password);
@@ -70,7 +64,6 @@ const verifyEmail = catchAsync(async (req, res) => {
 
 module.exports = {
   register,
-  registerInep,
   login,
   loginInep,
   logout,

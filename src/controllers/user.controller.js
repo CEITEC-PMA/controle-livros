@@ -33,7 +33,7 @@ const getUserConnected = catchAsync(async (req, res) => {
   res.send(user);
 });
 
-const updateUser = catchAsync(async (req, res) => {
+const userUpdate = catchAsync(async (req, res) => {
   const user = await userService.updateUserById(req.params.userId, req.body);
   res.send(user);
 });
@@ -48,6 +48,6 @@ module.exports = {
   getUsers,
   getUser,
   getUserConnected,
-  updateUser,
+  userUpdate,
   deleteUser,
 };

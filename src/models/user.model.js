@@ -6,6 +6,7 @@ const { roles } = require('../config/roles');
 
 const userSchema = mongoose.Schema(
   {
+    unidadeId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Unidade' }],
     nome: {
       type: String,
       required: true,
@@ -23,9 +24,9 @@ const userSchema = mongoose.Schema(
         }
       },
     },
-    inep: {
-      type: Number,
-      required: [true, 'INEP não pode ficar vazio'],
+    username: {
+      type: String,
+      required: [true, 'INEP ou CPF não pode ficar vazio'],
       unique: true,
       trim: true,
     },
@@ -51,6 +52,10 @@ const userSchema = mongoose.Schema(
       default: 0,
     },
     isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    ativo: {
       type: Boolean,
       default: false,
     },
@@ -81,12 +86,12 @@ userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
 
 /**
  * Check if email is taken
- * @param {number} inep - The user's email
+ * @param {number} username - The user's email
  * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
  * @returns {Promise<boolean>}
  */
-userSchema.statics.isInepTaken = async function (inep, excludeUserId) {
-  const user = await this.findOne({ inep, _id: { $ne: excludeUserId } });
+userSchema.statics.isUsernameTaken = async function (username, excludeUserId) {
+  const user = await this.findOne({ username, _id: { $ne: excludeUserId } });
   return !!user;
 };
 

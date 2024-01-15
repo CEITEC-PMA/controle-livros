@@ -1,15 +1,22 @@
 const express = require('express');
-const auth = require('../../middlewares/auth');
 
-const { userValidation } = require('../../validations');
-const { userController } = require('../../controllers');
+const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
+
+const { turmaValidation } = require('../../validations');
+const { turmaController } = require('../../controllers');
 
 const router = express.Router();
 
-router.get('/me', auth('me'), userController.getUserConnected);
+router
+  .route('/')
+  .post(auth('create'), validate(turmaValidation.createTurma), turmaController.createTurma)
+  .get(validate(turmaValidation.showAllUnidade), turmaController.showAllUnidade);
 
-router.route('/:userId').patch(validate(userValidation.userUpdate), userController.userUpdate);
+router
+  .route('/:unidadeId')
+  .get(validate(turmaValidation.showUnidadeId), turmaController.showUnidadeId)
+  .patch(auth('create'), validate(turmaValidation.updateUnidadeId), turmaController.updateUnidadeId);
 
 module.exports = router;
 
