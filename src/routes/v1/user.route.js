@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/me', auth('me'), userController.getUserConnected);
 
-router.route('/:userId').patch(validate(userValidation.userUpdate), userController.userUpdate);
+router.route('/:userId').patch(auth('create'), validate(userValidation.userUpdate), userController.userUpdate);
 
 module.exports = router;
 
