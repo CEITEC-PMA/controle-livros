@@ -32,14 +32,9 @@ const forgotPassword = catchAsync(async (req, res) => {
 });
 
 const resetPassword = catchAsync(async (req, res) => {
-  await authService.resetPassword(req.query.token, req.body.password);
-  res.status(httpStatus.NO_CONTENT).send();
-});
-
-const resetPasswordInep = catchAsync(async (req, res) => {
-  const { inep, password } = req.body;
-  await authService.resetPasswordPrimeiroAcesso(inep, password);
-  const user = await userService.updateAcessoTrue(inep);
+  const { username, password } = req.body;
+  await authService.resetPasswordPrimeiroAcesso(username, password);
+  const user = await userService.updateAcessoTrue(username);
   const tokens = await tokenService.generateAuthTokens(user);
   res.send({ user, tokens });
 });
@@ -62,7 +57,6 @@ module.exports = {
   refreshTokens,
   forgotPassword,
   resetPassword,
-  resetPasswordInep,
   sendVerificationEmail,
   verifyEmail,
 };

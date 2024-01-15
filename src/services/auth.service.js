@@ -75,7 +75,7 @@ const resetPassword = async (resetPasswordToken, newPassword) => {
 };
 
 const resetPasswordPrimeiroAcesso = async (inep, newPassword) => {
-  const user = await userService.getUserByInep(inep);
+  const user = await userService.getUserByUsername(inep);
   if (!user) {
     throw new Error();
   }
