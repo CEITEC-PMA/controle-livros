@@ -8,15 +8,7 @@ const { turmaController } = require('../../controllers');
 
 const router = express.Router();
 
-router
-  .route('/')
-  .post(auth('create'), validate(turmaValidation.createTurma), turmaController.createTurma)
-  .get(validate(turmaValidation.showAllUnidade), turmaController.showAllUnidade);
-
-router
-  .route('/:unidadeId')
-  .get(validate(turmaValidation.showUnidadeId), turmaController.showUnidadeId)
-  .patch(auth('create'), validate(turmaValidation.updateUnidadeId), turmaController.updateUnidadeId);
+router.route('/').post(auth('create'), validate(turmaValidation.createTurma), turmaController.createTurma);
 
 module.exports = router;
 

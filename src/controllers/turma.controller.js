@@ -5,8 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const { turmaService } = require('../services');
 
 const createTurma = catchAsync(async (req, res) => {
-  const { id } = req.user;
-  const turma = await turmaService.createTurma(id, req.body);
+  const turma = await turmaService.createTurma(req.body);
   res.status(httpStatus.CREATED).send(turma);
 });
 

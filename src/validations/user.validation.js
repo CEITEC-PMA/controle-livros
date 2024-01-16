@@ -38,6 +38,7 @@ const userUpdate = {
       role: Joi.string(),
       ativo: Joi.boolean(),
       deletado: Joi.boolean(),
+      acesso: Joi.number(),
     })
     .min(1),
 };

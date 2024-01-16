@@ -9,16 +9,16 @@ const { unidadeService } = require('.');
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createTurma = async (unidadeId, userBody) => {
+const createTurma = async (userBody) => {
   const turma = await Turma.create({
-    unidadeId,
+    unidadeId: userBody.unidadeId,
     nameTurma: userBody.nameTurma,
     qtdeAlunos: userBody.qtdeAlunos,
     qtdeProf: userBody.qtdeProf,
   });
 
-  const unidade = await unidadeService.getUnidadeById(unidadeId);
-  unidade.turma = turma.id;
+  const unidade = await Unidade.findById(userBody.unidadeId);
+  unidade.turmaId = turma.id;
   await unidade.save();
 
   return turma;
@@ -34,7 +34,6 @@ const createTurma = async (unidadeId, userBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryUnidades = async (filter, options) => {
-  console.log(options);
   const unidades = await Unidade.paginate(filter, options);
   return unidades;
 };

@@ -3,6 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createTurma = {
   body: Joi.object().keys({
+    unidadeId: Joi.string().custom(objectId),
     nameTurma: Joi.string().required(),
     qtdeAlunos: Joi.number().required(),
     qtdeProf: Joi.number().required(),
