@@ -8,6 +8,7 @@ const turmaSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      uppercase: true,
     },
     qtdeAlunos: {
       type: Number,

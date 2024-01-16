@@ -5,7 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const { userService, unidadeService } = require('../services');
 
 const createUnidade = catchAsync(async (req, res) => {
-  const unidade = await unidadeService.createUnidade(req.body, req.params.userId);
+  const unidade = await unidadeService.createUnidade(req.body);
   res.status(httpStatus.CREATED).send(unidade);
 });
 

@@ -8,9 +8,10 @@ const { unidadeController } = require('../../controllers');
 
 const router = express.Router();
 
-router.route('/').get(validate(unidadeValidation.showAllUnidade), unidadeController.showAllUnidade);
-
-router.route('/:userId').post(auth('create'), validate(unidadeValidation.createUnidade), unidadeController.createUnidade);
+router
+  .route('/')
+  .get(validate(unidadeValidation.showAllUnidade), unidadeController.showAllUnidade)
+  .post(validate(unidadeValidation.createUnidade), unidadeController.createUnidade);
 
 router
   .route('/:unidadeId')

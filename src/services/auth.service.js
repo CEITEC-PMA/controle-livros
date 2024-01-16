@@ -13,6 +13,9 @@ const { tokenTypes } = require('../config/tokens');
  */
 const loginUserWithUsernameAndPassword = async (username, password) => {
   const user = await userService.getUserByUsername(username);
+  if (user.deletado === true) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Usuário deletado. favor entrar em contato com suporte');
+  }
   if (user.ativo === false) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Usuário inativo. module o usuário em uma unidade para ativar');
   }

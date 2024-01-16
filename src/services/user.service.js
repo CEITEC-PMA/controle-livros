@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { getUnidadeById } = require('./unidade.service');
 
 /**
  * Create a user
@@ -39,7 +40,11 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return User.findById(id);
+  const user = await User.findById(id);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  return user;
 };
 
 /**
@@ -72,14 +77,19 @@ const getUserByUsername = async (username) => {
  */
 const updateUserById = async (userId, updateBody) => {
   const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
   if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
+
+  await updateBody.unidadeId.map(async (id) => {
+    const unidade = await getUnidadeById(id);
+    unidade.userId.push(userId);
+    await unidade.save();
+  });
+
   Object.assign(user, updateBody);
   await user.save();
+
   return user;
 };
 

@@ -6,7 +6,7 @@ const unidadeSchema = mongoose.Schema(
   {
     userId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     inep: {
-      type: Number,
+      type: String,
       required: true,
       trim: true,
     },
@@ -14,6 +14,7 @@ const unidadeSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      uppercase: true,
     },
     email: {
       type: String,

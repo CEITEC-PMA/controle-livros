@@ -8,14 +8,16 @@ const Unidade = require('../models/unidade.model');
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createUnidade = async (userBody, userId) => {
+const createUnidade = async (userBody) => {
   const existeUnidade = await Unidade.find({ inep: userBody.inep });
   if (existeUnidade.length > 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Unidade já existe!');
   }
 
   const unidade = await Unidade.create({
-    userId,
+    inep: userBody.inep,
+    nome: userBody.nome,
+    email: userBody.email,
     fone: userBody.fone,
     endereco: {
       cep: userBody.endereco.cep,

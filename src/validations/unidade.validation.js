@@ -2,13 +2,10 @@ const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
 const createUnidade = {
-  params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
-  }),
   body: Joi.object().keys({
     nome: Joi.string().required(),
     email: Joi.string().required().email(),
-    inep: Joi.number().integer().required(),
+    inep: Joi.string().required(),
     fone: Joi.string().required(),
     coordinates: Joi.array().items(Joi.number()).length(2).required(),
     endereco: {
