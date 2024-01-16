@@ -22,9 +22,6 @@ const loginUserWithUsernameAndPassword = async (username, password) => {
   if (!user || !(await user.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password ou Username incorreto');
   }
-
-  if (user.delete === true) throw new ApiError(httpStatus.UNAUTHORIZED, 'Usuário não existe');
-
   return user;
 };
 
@@ -82,10 +79,7 @@ const resetPassword = async (resetPasswordToken, newPassword) => {
 
 const resetPasswordPrimeiroAcesso = async (username, newPassword) => {
   const user = await userService.getUserByUsername(username);
-  if (!user) {
-    throw new Error();
-  }
-  await userService.updateUserById(user.id, { password: newPassword });
+  await userService.resetPasswordByUserId(user.id, { password: newPassword });
   await Token.deleteMany({ user: user.id, type: tokenTypes.RESET_PASSWORD });
 };
 

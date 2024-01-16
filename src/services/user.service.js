@@ -8,7 +8,7 @@ const { getUnidadeById } = require('./unidade.service');
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createUser = async (userBody) => {
+const register = async (userBody) => {
   if (await User.isUsernameTaken(userBody.username)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Usuário já existe');
   }
@@ -81,15 +81,22 @@ const updateUserById = async (userId, updateBody) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
 
-  await updateBody.unidadeId.map(async (id) => {
-    const unidade = await getUnidadeById(id);
-    unidade.userId.push(userId);
-    await unidade.save();
-  });
+  // await updateBody.unidadeId.map(async (id) => {
+  //   const unidade = await getUnidadeById(id);
+  //   unidade.userId.push(userId);
+  //   await unidade.save();
+  // });
 
   Object.assign(user, updateBody);
   await user.save();
 
+  return user;
+};
+
+const resetPasswordByUserId = async (userId, newPassword) => {
+  const user = await getUserById(userId);
+  user.acesso = 1;
+  await user.save();
   return user;
 };
 
@@ -115,8 +122,9 @@ const deleteUserById = async (userId) => {
 };
 
 module.exports = {
-  createUser,
+  register,
   queryUsers,
+  resetPasswordByUserId,
   getUserById,
   getUserByEmail,
   getUserByUsername,
