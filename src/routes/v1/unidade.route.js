@@ -16,7 +16,8 @@ router
 router
   .route('/:unidadeId')
   .get(validate(unidadeValidation.showUnidadeId), unidadeController.showUnidadeId)
-  .patch(validate(unidadeValidation.updateUnidadeId), unidadeController.updateUnidadeId);
+  .patch(validate(unidadeValidation.updateUnidadeId), unidadeController.updateUnidadeId)
+  .delete(validate(unidadeValidation.deleteUnidade), unidadeController.deleteUnidade);
 
 module.exports = router;
 

@@ -65,10 +65,15 @@ const updateUnidadeId = {
     .min(1),
 };
 
-const deleteUser = {
+const deleteUnidade = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    unidadeId: Joi.string().custom(objectId),
   }),
+  body: Joi.object()
+    .keys({
+      deletado: Joi.boolean().required(),
+    })
+    .min(1),
 };
 
 module.exports = {
@@ -76,5 +81,5 @@ module.exports = {
   showAllUnidade,
   showUnidadeId,
   updateUnidadeId,
-  deleteUser,
+  deleteUnidade,
 };

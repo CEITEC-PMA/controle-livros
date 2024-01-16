@@ -29,8 +29,8 @@ const updateUnidadeId = catchAsync(async (req, res) => {
   res.send(user);
 });
 
-const deleteUser = catchAsync(async (req, res) => {
-  await userService.deleteUserById(req.params.userId);
+const deleteUnidade = catchAsync(async (req, res) => {
+  await unidadeService.updateUnidadeById(req.params.unidadeId, req.body);
   res.status(httpStatus.NO_CONTENT).send();
 });
 
@@ -39,5 +39,5 @@ module.exports = {
   showAllUnidade,
   showUnidadeId,
   updateUnidadeId,
-  deleteUser,
+  deleteUnidade,
 };
