@@ -45,8 +45,15 @@ const userUpdate = {
 
 const deleteUser = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    userId: Joi.required().custom(objectId),
   }),
+  body: Joi.object()
+    .keys({
+      ativo: Joi.boolean(),
+      deletado: Joi.boolean(),
+      acesso: Joi.number(),
+    })
+    .min(1),
 };
 
 module.exports = {

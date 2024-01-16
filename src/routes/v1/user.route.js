@@ -11,7 +11,10 @@ router.get('/', auth('create'), userController.showAllUsers);
 
 router.get('/me', auth('me'), userController.getUserConnected);
 
-router.route('/:userId').patch(auth('create'), validate(userValidation.userUpdate), userController.userUpdate);
+router
+  .route('/:userId')
+  .patch(auth('create'), validate(userValidation.userUpdate), userController.userUpdate)
+  .delete(auth('create'), validate(userValidation.deleteUser), userController.userUpdate);
 
 module.exports = router;
 
