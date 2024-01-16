@@ -8,14 +8,14 @@ const Unidade = require('../models/unidade.model');
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createUnidade = async (userBody) => {
+const createUnidade = async (userBody, userId) => {
   const existeUnidade = await Unidade.find({ inep: userBody.inep });
   if (existeUnidade.length > 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Unidade já existe!');
   }
 
   const unidade = await Unidade.create({
-    userId: userBody.userId,
+    userId,
     fone: userBody.fone,
     endereco: {
       cep: userBody.endereco.cep,
@@ -46,7 +46,6 @@ const createUnidade = async (userBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryUnidades = async (filter, options) => {
-  console.log(options);
   const unidades = await Unidade.paginate(filter, options);
   return unidades;
 };
@@ -94,6 +93,7 @@ const getUserByCpf = async (cpf) => {
  */
 const updateUnidadeById = async (unidadeId, updateBody) => {
   const unidade = await getUnidadeById(unidadeId);
+  unidade.userId = unidade.userId.concat(updateBody.userId);
   Object.assign(unidade, updateBody);
   await unidade.save();
   return unidade;
@@ -106,20 +106,6 @@ const updateAcessoTrue = async (cpf) => {
   return user;
 };
 
-/**
- * Delete user by id
- * @param {ObjectId} userId
- * @returns {Promise<User>}
- */
-const deleteUserById = async (userId) => {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-  await user.remove();
-  return user;
-};
-
 module.exports = {
   createUnidade,
   queryUnidades,
@@ -128,5 +114,4 @@ module.exports = {
   getUserByCpf,
   updateUnidadeById,
   updateAcessoTrue,
-  deleteUserById,
 };

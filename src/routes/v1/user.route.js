@@ -7,7 +7,7 @@ const validate = require('../../middlewares/validate');
 
 const router = express.Router();
 
-router.get('/', userController.showAllUsers);
+router.get('/', auth('create'), userController.showAllUsers);
 
 router.get('/me', auth('me'), userController.getUserConnected);
 

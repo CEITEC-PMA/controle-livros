@@ -2,7 +2,12 @@ const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
 const createUnidade = {
+  params: Joi.object().keys({
+    userId: Joi.string().custom(objectId),
+  }),
   body: Joi.object().keys({
+    nome: Joi.string().required(),
+    email: Joi.string().required().email(),
     inep: Joi.number().integer().required(),
     fone: Joi.string().required(),
     coordinates: Joi.array().items(Joi.number()).length(2).required(),
@@ -41,8 +46,11 @@ const updateUnidadeId = {
   }),
   body: Joi.object()
     .keys({
-      name: Joi.string().optional(),
-      inep: Joi.number().integer().optional(),
+      userId: Joi.array().items(Joi.string()).optional().allow(''),
+      turmaId: Joi.array().items(Joi.string()).optional().allow(''),
+      funcionarioId: Joi.array().items(Joi.string()).optional().allow(''),
+      inep: Joi.number().optional(),
+      nome: Joi.string().optional(),
       fone: Joi.string().optional(),
       email: Joi.string().optional().email(),
       coordinates: Joi.array().items(Joi.number()).length(2).optional(),

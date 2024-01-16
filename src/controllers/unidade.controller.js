@@ -5,15 +5,13 @@ const catchAsync = require('../utils/catchAsync');
 const { userService, unidadeService } = require('../services');
 
 const createUnidade = catchAsync(async (req, res) => {
-  console.log(req.user);
-  // const unidade = await unidadeService.createUnidade(req.body);
-  // res.status(httpStatus.CREATED).send(unidade);
+  const unidade = await unidadeService.createUnidade(req.body, req.params.userId);
+  res.status(httpStatus.CREATED).send(unidade);
 });
 
 const showAllUnidade = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  console.log(req.query);
   const result = await unidadeService.queryUnidades(filter, options);
   res.send(result);
 });

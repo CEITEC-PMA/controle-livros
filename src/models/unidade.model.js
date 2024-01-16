@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 const { toJSON, paginate } = require('./plugins');
 
 const unidadeSchema = mongoose.Schema(
@@ -8,6 +9,23 @@ const unidadeSchema = mongoose.Schema(
       type: Number,
       required: true,
       trim: true,
+    },
+    nome: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error('Email invalido');
+        }
+      },
     },
     fone: {
       type: String,
@@ -28,12 +46,8 @@ const unidadeSchema = mongoose.Schema(
       localidade: { type: String, required: true },
       uf: { type: String, required: true },
     },
-    turma: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Turma' }],
-    funcionario: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Funcionario' }],
-    isEmailVerified: {
-      type: Boolean,
-      default: false,
-    },
+    turmaId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Turma' }],
+    funcionarioId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Funcionario' }],
     deletado: {
       type: Boolean,
       default: false,

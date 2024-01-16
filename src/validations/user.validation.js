@@ -32,7 +32,7 @@ const userUpdate = {
   }),
   body: Joi.object()
     .keys({
-      unidadeId: Joi.required().custom(objectId),
+      unidadeId: Joi.array().items(Joi.string()).optional().allow(''),
       email: Joi.string().email(),
       nome: Joi.string(),
       role: Joi.string(),
