@@ -13,6 +13,7 @@ router.get('/me', auth('me'), userController.getUserConnected);
 
 router
   .route('/:userId')
+  .post(validate(userValidation.modularUser), userController.modularUser)
   .patch(auth('create'), validate(userValidation.userUpdate), userController.userUpdate)
   .delete(auth('create'), validate(userValidation.deleteUser), userController.userUpdate);
 

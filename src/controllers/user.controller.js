@@ -33,6 +33,11 @@ const getUserConnected = catchAsync(async (req, res) => {
   res.send(user);
 });
 
+const modularUser = catchAsync(async (req, res) => {
+  const user = await userService.modularUserById(req.params.userId, req.body);
+  res.send(user);
+});
+
 const userUpdate = catchAsync(async (req, res) => {
   const user = await userService.updateUserById(req.params.userId, req.body);
   res.send(user);
@@ -43,5 +48,6 @@ module.exports = {
   showAllUsers,
   getUser,
   getUserConnected,
+  modularUser,
   userUpdate,
 };

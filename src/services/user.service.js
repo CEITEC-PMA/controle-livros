@@ -81,11 +81,20 @@ const updateUserById = async (userId, updateBody) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
 
-  // await updateBody.unidadeId.map(async (id) => {
-  //   const unidade = await getUnidadeById(id);
-  //   unidade.userId.push(userId);
-  //   await unidade.save();
-  // });
+  Object.assign(user, updateBody);
+  await user.save();
+
+  return user;
+};
+
+const modularUserById = async (userId, updateBody) => {
+  const user = await getUserById(userId);
+
+  await updateBody.unidadeId.map(async (id) => {
+    const unidade = await getUnidadeById(id);
+    unidade.userId.push(userId);
+    await unidade.save();
+  });
 
   Object.assign(user, updateBody);
   await user.save();
@@ -128,6 +137,7 @@ module.exports = {
   getUserById,
   getUserByEmail,
   getUserByUsername,
+  modularUserById,
   updateUserById,
   updateAcessoTrue,
   deleteUserById,
