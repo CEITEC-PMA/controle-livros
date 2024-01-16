@@ -8,7 +8,12 @@ const { turmaController } = require('../../controllers');
 
 const router = express.Router();
 
-router.route('/').post(auth('create'), validate(turmaValidation.createTurma), turmaController.createTurma);
+router
+  .route('/')
+  .post(auth('create'), validate(turmaValidation.createTurma), turmaController.createTurma)
+  .get(auth('create'), validate(turmaValidation.turmaGetAll), turmaController.turmaGetAll);
+
+router.route('/:turmaId').get(auth('create'), validate(turmaValidation.showTurmaId), turmaController.showTurmaId);
 
 module.exports = router;
 

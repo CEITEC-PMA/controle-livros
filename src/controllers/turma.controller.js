@@ -9,15 +9,15 @@ const createTurma = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(turma);
 });
 
-const showAllUnidade = catchAsync(async (req, res) => {
+const turmaGetAll = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await unidadeService.queryUnidades(filter, options);
+  const result = await turmaService.queryTurmas(filter, options);
   res.send(result);
 });
 
-const showUnidadeId = catchAsync(async (req, res) => {
-  const user = await unidadeService.getUnidadeById(req.params.unidadeId);
+const showTurmaId = catchAsync(async (req, res) => {
+  const user = await turmaService.getTurmaById(req.params.turmaId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -36,8 +36,8 @@ const deleteUser = catchAsync(async (req, res) => {
 
 module.exports = {
   createTurma,
-  showAllUnidade,
-  showUnidadeId,
+  turmaGetAll,
+  showTurmaId,
   updateUnidadeId,
   deleteUser,
 };

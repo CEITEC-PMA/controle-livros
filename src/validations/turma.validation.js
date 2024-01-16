@@ -10,7 +10,7 @@ const createTurma = {
   }),
 };
 
-const showAllUnidade = {
+const turmaGetAll = {
   query: Joi.object().keys({
     name: Joi.string(),
     role: Joi.string(),
@@ -20,9 +20,9 @@ const showAllUnidade = {
   }),
 };
 
-const showUnidadeId = {
+const showTurmaId = {
   params: Joi.object().keys({
-    unidadeId: Joi.string().custom(objectId),
+    turmaId: Joi.string().custom(objectId),
   }),
 };
 
@@ -59,8 +59,8 @@ const deleteUser = {
 
 module.exports = {
   createTurma,
-  showAllUnidade,
-  showUnidadeId,
+  turmaGetAll,
+  showTurmaId,
   updateUnidadeId,
   deleteUser,
 };

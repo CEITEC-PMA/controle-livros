@@ -2,7 +2,6 @@ const httpStatus = require('http-status');
 const { Turma } = require('../models');
 const ApiError = require('../utils/ApiError');
 const Unidade = require('../models/unidade.model');
-const { unidadeService } = require('.');
 
 /**
  * Create a user
@@ -33,9 +32,9 @@ const createTurma = async (userBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryUnidades = async (filter, options) => {
-  const unidades = await Unidade.paginate(filter, options);
-  return unidades;
+const queryTurmas = async (filter, options) => {
+  const turmas = await Turma.paginate(filter, options);
+  return turmas;
 };
 
 /**
@@ -43,12 +42,12 @@ const queryUnidades = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<User>}
  */
-const getUnidadeById = async (unidadeId) => {
-  const unidade = await Unidade.findById(unidadeId);
-  if (!unidade) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Unidade not found');
+const getTurmaById = async (turmaId) => {
+  const turma = await Turma.findById(turmaId);
+  if (!turma) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Turma not found');
   }
-  return unidade;
+  return turma;
 };
 
 /**
@@ -109,8 +108,8 @@ const deleteUserById = async (userId) => {
 
 module.exports = {
   createTurma,
-  queryUnidades,
-  getUnidadeById,
+  queryTurmas,
+  getTurmaById,
   getUserByEmail,
   getUserByCpf,
   updateUnidadeById,
