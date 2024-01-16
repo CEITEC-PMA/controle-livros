@@ -34,6 +34,7 @@ const userUpdate = {
     .keys({
       unidadeId: Joi.array().items(Joi.string()).optional().allow(''),
       email: Joi.string().email(),
+      password: Joi.string().custom(password),
       nome: Joi.string(),
       role: Joi.string(),
       ativo: Joi.boolean(),

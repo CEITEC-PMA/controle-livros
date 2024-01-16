@@ -80,7 +80,9 @@ const resetPassword = async (resetPasswordToken, newPassword) => {
 const resetPasswordPrimeiroAcesso = async (username, newPassword) => {
   const user = await userService.getUserByUsername(username);
   await userService.resetPasswordByUserId(user.id, { password: newPassword });
+  const userAcessoTrue = await userService.updateAcessoTrue(username);
   await Token.deleteMany({ user: user.id, type: tokenTypes.RESET_PASSWORD });
+  return userAcessoTrue;
 };
 
 /**

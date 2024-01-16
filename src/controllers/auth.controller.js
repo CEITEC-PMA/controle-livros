@@ -33,8 +33,7 @@ const forgotPassword = catchAsync(async (req, res) => {
 
 const resetPassword = catchAsync(async (req, res) => {
   const { username, password } = req.body;
-  await authService.resetPasswordPrimeiroAcesso(username, password);
-  const user = await userService.updateAcessoTrue(username);
+  const user = await authService.resetPasswordPrimeiroAcesso(username, password);
   const tokens = await tokenService.generateAuthTokens(user);
   res.send({ user, tokens });
 });
