@@ -96,6 +96,7 @@ const updateUserById = async (userId, updateBody) => {
 const resetPasswordByUserId = async (userId, newPassword) => {
   const user = await getUserById(userId);
   user.acesso = 1;
+  Object.assign(user, newPassword);
   await user.save();
   return user;
 };
