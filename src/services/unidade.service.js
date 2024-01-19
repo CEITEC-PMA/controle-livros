@@ -97,8 +97,29 @@ const updateUnidadeById = async (unidadeId, updateBody) => {
   const unidade = await getUnidadeById(unidadeId);
   unidade.userId = unidade.userId.concat(updateBody.userId);
   Object.assign(unidade, updateBody);
-  await unidade.save();
-  return unidade;
+
+  const unidadeAtualizada = await unidade.save({
+    userId: updateBody.userId,
+    inep: updateBody.inep,
+    nome: updateBody.nome,
+    email: updateBody.email,
+    fone: updateBody.fone,
+    endereco: {
+      cep: updateBody.endereco.cep,
+      logradouro: updateBody.endereco.logradouro,
+      complemento: updateBody.endereco.complemento,
+      quadra: updateBody.endereco.quadra,
+      lote: updateBody.endereco.lote,
+      bairro: updateBody.endereco.bairro,
+      localidade: updateBody.endereco.localidade,
+      uf: updateBody.endereco.uf,
+    },
+    location: {
+      type: 'Point',
+      coordinates: updateBody.coordinates,
+    },
+  });
+  return unidadeAtualizada;
 };
 
 const updateAcessoTrue = async (cpf) => {

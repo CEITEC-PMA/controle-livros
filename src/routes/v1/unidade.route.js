@@ -11,13 +11,13 @@ const router = express.Router();
 router
   .route('/')
   .get(validate(unidadeValidation.showAllUnidade), unidadeController.showAllUnidade)
-  .post(validate(unidadeValidation.createUnidade), unidadeController.createUnidade);
+  .post(auth('create'), validate(unidadeValidation.createUnidade), unidadeController.createUnidade);
 
 router
   .route('/:unidadeId')
   .get(validate(unidadeValidation.showUnidadeId), unidadeController.showUnidadeId)
-  .patch(validate(unidadeValidation.updateUnidadeId), unidadeController.updateUnidadeId)
-  .delete(validate(unidadeValidation.deleteUnidade), unidadeController.deleteUnidade);
+  .patch(auth('create'), validate(unidadeValidation.updateUnidadeId), unidadeController.updateUnidadeId)
+  .delete(auth('create'), validate(unidadeValidation.deleteUnidade), unidadeController.deleteUnidade);
 
 module.exports = router;
 
