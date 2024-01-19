@@ -11,6 +11,10 @@ const register = catchAsync(async (req, res) => {
 const login = catchAsync(async (req, res) => {
   const { username, password } = req.body;
   const user = await authService.loginUserWithUsernameAndPassword(username, password);
+  if (user.acesso === 0) {
+    const resetPasswordToken = await tokenService.generateResetPasswordToken(user.id);
+    return res.send({ user, resetPasswordToken });
+  }
   const tokens = await tokenService.generateAuthTokens(user);
   res.send({ user, tokens });
 });
@@ -32,8 +36,9 @@ const forgotPassword = catchAsync(async (req, res) => {
 });
 
 const resetPassword = catchAsync(async (req, res) => {
-  const { username, password } = req.body;
-  const user = await authService.resetPasswordPrimeiroAcesso(username, password);
+  const bearerToken = await req.headers.authorization;
+  const token = await bearerToken.split(' ')[1];
+  const user = await authService.resetPasswordPrimeiroAcesso(token, req.body.password);
   const tokens = await tokenService.generateAuthTokens(user);
   res.send({ user, tokens });
 });

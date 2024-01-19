@@ -87,6 +87,14 @@ const updateUserById = async (userId, updateBody) => {
   return user;
 };
 
+const resetPasswordByUserId = async (userId, newPassword) => {
+  const user = await getUserById(userId);
+  Object.assign(user, newPassword);
+  user.acesso = 1;
+  await user.save();
+  return user;
+};
+
 const modularUserById = async (userId, updateBody) => {
   const user = await getUserById(userId);
 
@@ -99,13 +107,6 @@ const modularUserById = async (userId, updateBody) => {
   Object.assign(user, updateBody);
   await user.save();
 
-  return user;
-};
-
-const resetPasswordByUserId = async (userId, newPassword) => {
-  const user = await getUserById(userId);
-  Object.assign(user, newPassword);
-  await user.save();
   return user;
 };
 
