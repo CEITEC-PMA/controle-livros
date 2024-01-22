@@ -13,6 +13,7 @@ const createTurma = {
 const turmaGetAll = {
   query: Joi.object().keys({
     name: Joi.string(),
+    unidadeId: Joi.string(),
     role: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
