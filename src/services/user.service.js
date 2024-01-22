@@ -62,7 +62,7 @@ const getUserByEmail = async (email) => {
  * @returns {Promise<User>}
  */
 const getUserByUsername = async (username) => {
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username }).populate('unidadeId');
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Usuario não encontrado!');
   }
