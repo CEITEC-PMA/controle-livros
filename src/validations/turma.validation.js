@@ -42,15 +42,8 @@ const updateTurma = {
 
 const deleteTurma = {
   params: Joi.object().keys({
-    unidadeId: Joi.required().custom(objectId),
+    turmaId: Joi.required().custom(objectId),
   }),
-  body: Joi.object()
-    .keys({
-      nameTurma: Joi.string().required(),
-      qtdeAlunos: Joi.number().required(),
-      qtdeProf: Joi.number().required(),
-    })
-    .min(1),
 };
 module.exports = {
   createTurma,
