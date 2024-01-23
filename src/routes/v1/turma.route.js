@@ -17,7 +17,7 @@ router
   .route('/:turmaId')
   .get(auth('create'), validate(turmaValidation.showTurmaId), turmaController.showTurmaId)
   .patch(auth('create'), validate(turmaValidation.updateTurma), turmaController.updateTurma)
-  .delete(auth('create'), validate(turmaValidation.deleteTurma), turmaController.turmaGetAll);
+  .delete(auth('create'), validate(turmaValidation.deleteTurma), turmaController.deleteTurma);
 
 module.exports = router;
 

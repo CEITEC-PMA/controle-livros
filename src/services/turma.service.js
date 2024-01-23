@@ -97,11 +97,8 @@ const updateAcessoTrue = async (cpf) => {
  * @param {ObjectId} userId
  * @returns {Promise<User>}
  */
-const deleteUserById = async (userId) => {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
+const deleteTurmaById = async (userId) => {
+  const user = await getTurmaById(userId);
   await user.remove();
   return user;
 };
@@ -114,5 +111,5 @@ module.exports = {
   getUserByCpf,
   updateTurmaById,
   updateAcessoTrue,
-  deleteUserById,
+  deleteTurmaById,
 };

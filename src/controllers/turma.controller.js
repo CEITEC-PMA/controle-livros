@@ -29,8 +29,8 @@ const updateTurma = catchAsync(async (req, res) => {
   res.send(user);
 });
 
-const deleteUser = catchAsync(async (req, res) => {
-  await userService.deleteUserById(req.params.userId);
+const deleteTurma = catchAsync(async (req, res) => {
+  await turmaService.deleteTurmaById(req.params.userId);
   res.status(httpStatus.NO_CONTENT).send();
 });
 
@@ -39,5 +39,5 @@ module.exports = {
   turmaGetAll,
   showTurmaId,
   updateTurma,
-  deleteUser,
+  deleteTurma,
 };
