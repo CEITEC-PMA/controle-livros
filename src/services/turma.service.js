@@ -94,13 +94,13 @@ const updateAcessoTrue = async (cpf) => {
 
 /**
  * Delete user by id
- * @param {ObjectId} userId
+ * @param {ObjectId} turmaId
  * @returns {Promise<User>}
  */
-const deleteTurmaById = async (userId) => {
-  const user = await getTurmaById(userId);
-  await user.remove();
-  return user;
+const deleteTurmaById = async (turmaId) => {
+  const turma = await getTurmaById(turmaId);
+  await turma.remove();
+  return turma;
 };
 
 module.exports = {

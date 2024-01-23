@@ -30,7 +30,7 @@ const updateTurma = catchAsync(async (req, res) => {
 });
 
 const deleteTurma = catchAsync(async (req, res) => {
-  await turmaService.deleteTurmaById(req.params.userId);
+  await turmaService.deleteTurmaById(req.params.turmaId);
   res.status(httpStatus.NO_CONTENT).send();
 });
 
