@@ -78,11 +78,11 @@ const getUserByCpf = async (cpf) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateUnidadeById = async (unidadeId, updateBody) => {
-  const unidade = await getUnidadeById(unidadeId);
-  Object.assign(unidade, updateBody);
-  await unidade.save();
-  return unidade;
+const updateTurmaById = async (unidadeId, updateBody) => {
+  const turma = await getTurmaById(unidadeId);
+  Object.assign(turma, updateBody);
+  await turma.save();
+  return turma;
 };
 
 const updateAcessoTrue = async (cpf) => {
@@ -112,7 +112,7 @@ module.exports = {
   getTurmaById,
   getUserByEmail,
   getUserByCpf,
-  updateUnidadeById,
+  updateTurmaById,
   updateAcessoTrue,
   deleteUserById,
 };

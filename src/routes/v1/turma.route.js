@@ -13,7 +13,11 @@ router
   .post(auth('create'), validate(turmaValidation.createTurma), turmaController.createTurma)
   .get(auth('create'), validate(turmaValidation.turmaGetAll), turmaController.turmaGetAll);
 
-router.route('/:turmaId').get(auth('create'), validate(turmaValidation.showTurmaId), turmaController.showTurmaId);
+router
+  .route('/:turmaId')
+  .get(auth('create'), validate(turmaValidation.showTurmaId), turmaController.showTurmaId)
+  .patch(auth('create'), validate(turmaValidation.updateTurma), turmaController.updateTurma)
+  .delete(auth('create'), validate(turmaValidation.deleteTurma), turmaController.turmaGetAll);
 
 module.exports = router;
 

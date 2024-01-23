@@ -24,8 +24,8 @@ const showTurmaId = catchAsync(async (req, res) => {
   res.send(user);
 });
 
-const updateUnidadeId = catchAsync(async (req, res) => {
-  const user = await unidadeService.updateUnidadeById(req.params.unidadeId, req.body);
+const updateTurma = catchAsync(async (req, res) => {
+  const user = await turmaService.updateTurmaById(req.params.unidadeId, req.body);
   res.send(user);
 });
 
@@ -38,6 +38,6 @@ module.exports = {
   createTurma,
   turmaGetAll,
   showTurmaId,
-  updateUnidadeId,
+  updateTurma,
   deleteUser,
 };
