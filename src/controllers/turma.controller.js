@@ -25,8 +25,8 @@ const showTurmaId = catchAsync(async (req, res) => {
 });
 
 const updateTurma = catchAsync(async (req, res) => {
-  const user = await turmaService.updateTurmaById(req.params.unidadeId, req.body);
-  res.send(user);
+  const turma = await turmaService.updateTurmaById(req.body);
+  res.send(turma);
 });
 
 const deleteTurma = catchAsync(async (req, res) => {

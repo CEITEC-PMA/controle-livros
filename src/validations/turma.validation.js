@@ -28,11 +28,9 @@ const showTurmaId = {
 };
 
 const updateTurma = {
-  params: Joi.object().keys({
-    unidadeId: Joi.required().custom(objectId),
-  }),
   body: Joi.object()
     .keys({
+      turmaId: Joi.required().custom(objectId),
       nameTurma: Joi.string().required(),
       qtdeAlunos: Joi.number().required(),
       qtdeProf: Joi.number().required(),

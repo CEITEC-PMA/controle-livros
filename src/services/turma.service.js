@@ -78,8 +78,8 @@ const getUserByCpf = async (cpf) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateTurmaById = async (unidadeId, updateBody) => {
-  const turma = await getTurmaById(unidadeId);
+const updateTurmaById = async (updateBody) => {
+  const turma = await getTurmaById(updateBody.turmaId);
   Object.assign(turma, updateBody);
   await turma.save();
   return turma;
