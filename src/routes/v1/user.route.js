@@ -7,15 +7,15 @@ const validate = require('../../middlewares/validate');
 
 const router = express.Router();
 
-router.get('/', auth('create'), userController.showAllUsers);
+router.get('/', userController.showAllUsers);
 
 router.get('/me', auth('me'), userController.getUserConnected);
 
 router
   .route('/:userId')
   .post(validate(userValidation.modularUser), userController.modularUser)
-  .patch(auth('create'), validate(userValidation.userUpdate), userController.userUpdate)
-  .delete(auth('create'), validate(userValidation.deleteUser), userController.userUpdate);
+  .patch(auth('createUser'), validate(userValidation.userUpdate), userController.userUpdate)
+  .delete(auth('createUser'), validate(userValidation.deleteUser), userController.userUpdate);
 
 module.exports = router;
 
