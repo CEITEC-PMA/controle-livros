@@ -32,11 +32,22 @@ if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
 
+let url;
+let name;
+if (envVars.NODE_ENV === 'production') {
+  url = envVars.MONGODB_URL;
+  name = `PRODUCTION`;
+} else {
+  url = envVars.MONGODB_URL_DEV;
+  name = `DESENVOLVIMENTO: ${url}`;
+}
+
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   mongoose: {
     url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
+    name,
     options: {
       useCreateIndex: true,
       useNewUrlParser: true,
