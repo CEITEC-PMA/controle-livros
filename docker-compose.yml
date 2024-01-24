@@ -6,6 +6,6 @@ services:
     container_name: api-controle-livros
     image: api-controle-livros
     ports:
-      - '3000:3000'
+      - '3055:3055'
     volumes:
       - .:/usr/src/node-app
