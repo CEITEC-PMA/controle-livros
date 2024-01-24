@@ -2,5 +2,13 @@ version: '3'
 
 services:
   node-app:
-    container_name: node-app-prod
-    command: yarn start
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    restart: on-failure
+    container_name: api-controle-livros
+    image: api-controle-livros
+    ports:
+      - '3055:3055'
+    volumes:
+      - .:/usr/src/node-app
