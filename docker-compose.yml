@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-  node-app:
+  app:
     build: .
     container_name: api-controle-livros
     image: api-controle-livros
     ports:
       - '3055:3055'
     volumes:
-      - .:/usr/src/node-app
+      - .:/usr/src/app

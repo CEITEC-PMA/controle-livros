@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  node-app:
+  app:
     build:
       context: .
       dockerfile: Dockerfile.prod
@@ -11,4 +11,4 @@ services:
     ports:
       - '3055:3055'
     volumes:
-      - .:/usr/src/node-app
+      - .:/usr/src/app
