@@ -110,6 +110,21 @@ const modularUserById = async (userId, updateBody) => {
   return user;
 };
 
+const removeModularUserById = async (userId, updateBody) => {
+  const { unidadeId } = updateBody;
+  const user = await getUserById(userId);
+  await getUnidadeById(unidadeId);
+
+  user.unidadeId = await user.unidadeId.filter((id) => id.toString() !== unidadeId.toString());
+
+  if (user.unidadeId.length === 0) {
+    user.ativo = false;
+  }
+
+  await user.save();
+  return user;
+};
+
 const updateAcessoTrue = async (username) => {
   const user = await getUserByUsername(username);
   user.acesso = 1;
@@ -142,4 +157,5 @@ module.exports = {
   updateUserById,
   updateAcessoTrue,
   deleteUserById,
+  removeModularUserById,
 };

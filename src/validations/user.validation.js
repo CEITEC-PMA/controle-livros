@@ -48,11 +48,9 @@ const modularUser = {
   params: Joi.object().keys({
     userId: Joi.required().custom(objectId),
   }),
-  body: Joi.object()
-    .keys({
-      unidadeId: Joi.required().custom(objectId),
-    })
-    .min(1),
+  body: Joi.object().keys({
+    unidadeId: Joi.required().custom(objectId),
+  }),
 };
 
 const deleteUser = {
@@ -68,6 +66,15 @@ const deleteUser = {
     .min(1),
 };
 
+const removeModulacaoUser = {
+  params: Joi.object().keys({
+    userId: Joi.required().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    unidadeId: Joi.required().custom(objectId),
+  }),
+};
+
 module.exports = {
   createUser,
   getUsers,
@@ -75,4 +82,5 @@ module.exports = {
   userUpdate,
   modularUser,
   deleteUser,
+  removeModulacaoUser,
 };
