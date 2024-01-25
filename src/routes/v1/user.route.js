@@ -19,7 +19,7 @@ router
 
 router
   .route('/modular/:userId')
-  .post(auth('createUser'), validate(userValidation.modularUser), userController.modularUser)
+  .post(validate(userValidation.modularUser), userController.modularUser)
   .delete(auth('createUser'), validate(userValidation.removeModulacaoUser), userController.removeModulacaoUser);
 
 module.exports = router;
