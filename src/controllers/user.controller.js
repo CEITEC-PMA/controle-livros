@@ -47,6 +47,15 @@ const userUpdate = catchAsync(async (req, res) => {
   res.send(user);
 });
 
+const deleteFalseUpdate = catchAsync(async (req, res) => {
+  const user = await userService.deleteFalseUpdateByUserId(req.params.userId);
+  res.send(user);
+});
+const deleteUser = catchAsync(async (req, res) => {
+  const user = await userService.deleteUserById(req.params.userId);
+  res.send(user);
+});
+
 module.exports = {
   createUser,
   showAllUsers,
@@ -55,4 +64,6 @@ module.exports = {
   modularUser,
   userUpdate,
   removeModulacaoUser,
+  deleteUser,
+  deleteFalseUpdate,
 };

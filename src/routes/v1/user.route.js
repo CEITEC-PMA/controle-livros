@@ -14,7 +14,7 @@ router.get('/me', auth('me'), userController.getUserConnected);
 router
   .route('/:userId')
   .patch(auth('createUser'), validate(userValidation.userUpdate), userController.userUpdate)
-  .delete(auth('createUser'), validate(userValidation.deleteUser), userController.userUpdate);
+  .delete(auth('createUser'), validate(userValidation.deleteUser), userController.deleteUser);
 
 router
   .route('/modular/:userId')
