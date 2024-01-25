@@ -15,7 +15,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: path/to/your/dockerfile/directory
-          dockerfile: Dockerfile.prod
+          context: .
           push: false
           tags: drakkefit/controle-livros-api:latest

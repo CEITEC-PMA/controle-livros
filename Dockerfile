@@ -1,8 +1,8 @@
 FROM node:alpine
 
-RUN mkdir -p /usr/src/app && chown -R node:node /usr/src/app
+RUN mkdir -p /usr/src/node-app && chown -R node:node /usr/src/node-app
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/node-app
 
 COPY package*.json ./
 
@@ -13,3 +13,5 @@ RUN npm ci
 COPY --chown=node:node . .
 
 EXPOSE 3055
+
+CMD [ "npm ", "run", "start" ]
