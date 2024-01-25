@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const { Turma } = require('../models');
 const ApiError = require('../utils/ApiError');
 const Unidade = require('../models/unidade.model');
+const { getUnidadeById } = require('./unidade.service');
 
 /**
  * Create a user
@@ -69,6 +70,9 @@ const updateTurmaById = async (turmaId, updateBody) => {
  */
 const deleteTurmaById = async (turmaId) => {
   const turma = await getTurmaById(turmaId);
+  const unidade = await getUnidadeById(turma.unidadeId);
+  unidade.turmaId = await unidade.turmaId.filter((id) => id.toString() !== turma.id.toString());
+  await unidade.save();
   await turma.remove();
   return turma;
 };
