@@ -47,6 +47,11 @@ const userUpdate = catchAsync(async (req, res) => {
   res.send(user);
 });
 
+const updateAcessoZero = catchAsync(async (req, res) => {
+  const user = await userService.updateAcessoZeroById(req.params.userId);
+  res.send(user);
+});
+
 const deleteFalseUpdate = catchAsync(async (req, res) => {
   const user = await userService.deleteFalseUpdateByUserId(req.params.userId);
   res.send(user);
@@ -66,4 +71,5 @@ module.exports = {
   removeModulacaoUser,
   deleteUser,
   deleteFalseUpdate,
+  updateAcessoZero,
 };

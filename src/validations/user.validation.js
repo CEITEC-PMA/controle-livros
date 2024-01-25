@@ -44,6 +44,12 @@ const userUpdate = {
     .min(1),
 };
 
+const updateAcessoZero = {
+  params: Joi.object().keys({
+    userId: Joi.required().custom(objectId),
+  }),
+};
+
 const deleteFalseUpdate = {
   params: Joi.object().keys({
     userId: Joi.required().custom(objectId),
@@ -83,4 +89,5 @@ module.exports = {
   deleteUser,
   removeModulacaoUser,
   deleteFalseUpdate,
+  updateAcessoZero,
 };
