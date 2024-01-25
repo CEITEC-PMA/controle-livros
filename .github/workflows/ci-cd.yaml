@@ -1,10 +1,5 @@
 name: CI/CD
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 on:
   pull_request:
     branches: ['dev', 'main']
@@ -24,13 +19,3 @@ jobs:
           dockerfile: Dockerfile.prod
           push: false
           tags: drakkefit/controle-livros-api:latest
-
-  cd:
-    needs: ci
-    runs-on: ubuntu-latest
-
-    if: ${{ github.event_name != 'pull_request' }}
-
-    steps:
-      - name: show version
-        run: echo ${{ needs.ci.outputs.new_version }}
