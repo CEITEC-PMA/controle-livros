@@ -10,7 +10,7 @@ const { getUnidadeById } = require('./unidade.service');
  */
 const register = async (userBody) => {
   if (await User.isUsernameTaken(userBody.username)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Usuário já existe');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Usuário já existe, favor verificar com o administrador para reativalo');
   }
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email já existe');
@@ -110,6 +110,21 @@ const modularUserById = async (userId, updateBody) => {
   return user;
 };
 
+const removeModularUserById = async (userId, updateBody) => {
+  const { unidadeId } = updateBody;
+  const user = await getUserById(userId);
+  await getUnidadeById(unidadeId);
+
+  user.unidadeId = await user.unidadeId.filter((id) => id.toString() !== unidadeId.toString());
+
+  if (user.unidadeId.length === 0) {
+    user.ativo = false;
+  }
+
+  await user.save();
+  return user;
+};
+
 const updateAcessoTrue = async (username) => {
   const user = await getUserByUsername(username);
   user.acesso = 1;
@@ -124,10 +139,27 @@ const updateAcessoTrue = async (username) => {
  */
 const deleteUserById = async (userId) => {
   const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  if (!user.deletado) {
+    user.unidadeId = [];
+    user.ativo = false;
+    user.acesso = 0;
+    user.deletado = true;
+  } else {
+    user.deletado = false;
   }
-  await user.remove();
+  await user.save();
+  return user;
+};
+
+/**
+ * Delete user by id
+ * @param {ObjectId} userId
+ * @returns {Promise<User>}
+ */
+const deleteFalseUpdateByUserId = async (userId) => {
+  const user = await getUserById(userId);
+  user.deletado = false;
+  await user.save();
   return user;
 };
 
@@ -142,4 +174,6 @@ module.exports = {
   updateUserById,
   updateAcessoTrue,
   deleteUserById,
+  removeModularUserById,
+  deleteFalseUpdateByUserId,
 };

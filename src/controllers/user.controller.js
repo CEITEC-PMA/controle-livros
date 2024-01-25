@@ -37,9 +37,22 @@ const modularUser = catchAsync(async (req, res) => {
   const user = await userService.modularUserById(req.params.userId, req.body);
   res.send(user);
 });
+const removeModulacaoUser = catchAsync(async (req, res) => {
+  const user = await userService.removeModularUserById(req.params.userId, req.body);
+  res.send(user);
+});
 
 const userUpdate = catchAsync(async (req, res) => {
   const user = await userService.updateUserById(req.params.userId, req.body);
+  res.send(user);
+});
+
+const deleteFalseUpdate = catchAsync(async (req, res) => {
+  const user = await userService.deleteFalseUpdateByUserId(req.params.userId);
+  res.send(user);
+});
+const deleteUser = catchAsync(async (req, res) => {
+  const user = await userService.deleteUserById(req.params.userId);
   res.send(user);
 });
 
@@ -50,4 +63,7 @@ module.exports = {
   getUserConnected,
   modularUser,
   userUpdate,
+  removeModulacaoUser,
+  deleteUser,
+  deleteFalseUpdate,
 };
