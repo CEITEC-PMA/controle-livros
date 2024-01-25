@@ -2,11 +2,11 @@ version: '3'
 
 services:
   app:
+    container_name: api-controle-livros
     build:
       context: .
       dockerfile: Dockerfile.prod
     restart: on-failure
-    container_name: api-controle-livros
     image: api-controle-livros
     ports:
       - '3055:3055'
