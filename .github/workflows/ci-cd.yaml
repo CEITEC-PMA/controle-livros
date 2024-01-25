@@ -72,7 +72,7 @@ jobs:
           file: Dockerfile.prod
 
       - name: up containers
-        run: docker compose -f docker-compose.ci.yaml up -d
+        run: docker compose -f docker-compose.prod.yml up -d
 
       - name: Bump version and push tag
         id: tagging
