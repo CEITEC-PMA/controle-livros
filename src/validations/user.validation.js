@@ -50,8 +50,7 @@ const modularUser = {
   }),
   body: Joi.object()
     .keys({
-      unidadeId: Joi.array().items(Joi.string()).optional().allow(''),
-      ativo: Joi.boolean(),
+      unidadeId: Joi.required().custom(objectId),
     })
     .min(1),
 };

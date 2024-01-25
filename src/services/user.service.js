@@ -96,17 +96,17 @@ const resetPasswordByUserId = async (userId, newPassword) => {
 };
 
 const modularUserById = async (userId, updateBody) => {
+  const { unidadeId } = updateBody;
   const user = await getUserById(userId);
-
-  await updateBody.unidadeId.map(async (id) => {
-    const unidade = await getUnidadeById(id);
-    unidade.userId.push(userId);
-    await unidade.save();
-  });
-
-  Object.assign(user, updateBody);
+  await getUnidadeById(unidadeId);
+  // indexof retorna -1 se não encontrar a posição do elemento unidadeId na matriz
+  if (user.unidadeId.indexOf(unidadeId) === -1) {
+    user.unidadeId.push(unidadeId);
+  } else {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Unidade já modulada nesse usuário');
+  }
+  user.ativo = true;
   await user.save();
-
   return user;
 };
 
