@@ -106,22 +106,25 @@ const resetPasswordByUserId = async (userId, newPassword) => {
 const modularUserById = async (userId, updateBody) => {
   const { unidadeId } = updateBody;
   const user = await getUserById(userId);
-  await getUnidadeById(unidadeId);
+  const unidade = await getUnidadeById(unidadeId);
   // indexof retorna -1 se não encontrar a posição do elemento unidadeId na matriz
   if (user.unidadeId.indexOf(unidadeId) === -1) {
     user.unidadeId.push(unidadeId);
   } else {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Unidade já modulada nesse usuário');
   }
+
+  unidade.userId.push(user.id);
   user.ativo = true;
   await user.save();
+  await unidade.save();
   return user;
 };
 
 const removeModularUserById = async (userId, updateBody) => {
   const { unidadeId } = updateBody;
   const user = await getUserById(userId);
-  await getUnidadeById(unidadeId);
+  const unidade = await getUnidadeById(unidadeId);
 
   user.unidadeId = await user.unidadeId.filter((id) => id.toString() !== unidadeId.toString());
 
@@ -129,7 +132,10 @@ const removeModularUserById = async (userId, updateBody) => {
     user.ativo = false;
   }
 
+  unidade.userId = await unidade.userId.filter((id) => id.toString() !== user.id.toString());
+
   await user.save();
+  await unidade.save();
   return user;
 };
 

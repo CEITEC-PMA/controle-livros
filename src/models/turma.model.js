@@ -3,7 +3,7 @@ const { toJSON, paginate } = require('./plugins');
 
 const turmaSchema = mongoose.Schema(
   {
-    unidadeId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Unidade' }],
+    unidadeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Unidade' },
     nameTurma: {
       type: String,
       required: true,
