@@ -87,6 +87,14 @@ const updateUserById = async (userId, updateBody) => {
   return user;
 };
 
+const updateAcessoZeroById = async (userId) => {
+  const user = await getUserById(userId);
+  user.acesso = 0;
+  user.password = 'inep123456';
+  await user.save();
+  return user;
+};
+
 const resetPasswordByUserId = async (userId, newPassword) => {
   const user = await getUserById(userId);
   Object.assign(user, newPassword);
@@ -169,6 +177,7 @@ module.exports = {
   resetPasswordByUserId,
   getUserById,
   getUserByEmail,
+  updateAcessoZeroById,
   getUserByUsername,
   modularUserById,
   updateUserById,

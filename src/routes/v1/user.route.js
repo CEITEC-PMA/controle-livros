@@ -14,6 +14,7 @@ router.get('/me', auth('me'), userController.getUserConnected);
 router
   .route('/:userId')
   .patch(auth('createUser'), validate(userValidation.userUpdate), userController.userUpdate)
+  .put(auth('createUser'), validate(userValidation.updateAcessoZero), userController.updateAcessoZero)
   .delete(auth('createUser'), validate(userValidation.deleteUser), userController.deleteUser);
 
 router
