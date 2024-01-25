@@ -18,7 +18,6 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: api-${{ github.repository }}
-  FOLDER_NAME: ${{ github.event.repository.name }}-app
 
 jobs:
   ci:
