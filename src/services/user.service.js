@@ -124,7 +124,7 @@ const modularUserById = async (userId, updateBody) => {
 const removeModularUserById = async (userId, updateBody) => {
   const { unidadeId } = updateBody;
   const user = await getUserById(userId);
-  await getUnidadeById(unidadeId);
+  const unidade = await getUnidadeById(unidadeId);
 
   user.unidadeId = await user.unidadeId.filter((id) => id.toString() !== unidadeId.toString());
 
@@ -132,7 +132,10 @@ const removeModularUserById = async (userId, updateBody) => {
     user.ativo = false;
   }
 
+  unidade.userId = await unidade.userId.filter((id) => id.toString() !== user.id.toString());
+
   await user.save();
+  await unidade.save();
   return user;
 };
 
