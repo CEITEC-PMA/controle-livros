@@ -48,7 +48,6 @@ const unidadeSchema = mongoose.Schema(
       uf: { type: String, required: true },
     },
     turmaId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Turma' }],
-    funcionarioId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Funcionario' }],
     deletado: {
       type: Boolean,
       default: false,
