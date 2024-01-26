@@ -145,7 +145,8 @@ const removeModularUserById = async (userId, updateBody) => {
 
   await user.save();
   await unidade.save();
-  return user;
+  const userWithUnidadeName = await User.findById(user.id).populate('unidadeId', 'nome');
+  return userWithUnidadeName;
 };
 
 const updateAcessoTrue = async (username) => {
