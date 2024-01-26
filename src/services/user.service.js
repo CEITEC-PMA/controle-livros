@@ -48,7 +48,7 @@ const getUserById = async (id) => {
 };
 
 const getUserByIdWithUnidade = async (id) => {
-  const user = await User.findById(id).populate('unidadeId');
+  const user = await User.findById(id).populate('unidadeId', 'nome');
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
