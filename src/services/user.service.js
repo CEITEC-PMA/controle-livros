@@ -47,6 +47,14 @@ const getUserById = async (id) => {
   return user;
 };
 
+const getUserByIdWithUnidade = async (id) => {
+  const user = await User.findById(id).populate('unidadeId');
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  return user;
+};
+
 /**
  * Get user by email
  * @param {string} email
@@ -182,6 +190,7 @@ module.exports = {
   queryUsers,
   resetPasswordByUserId,
   getUserById,
+  getUserByIdWithUnidade,
   getUserByEmail,
   updateAcessoZeroById,
   getUserByUsername,
