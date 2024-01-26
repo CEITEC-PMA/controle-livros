@@ -31,7 +31,7 @@ const createUnidade = async (userBody) => {
     },
     location: {
       type: 'Point',
-      coordinates: userBody.coordinates,
+      coordinates: userBody.location.coordinates,
     },
   });
 

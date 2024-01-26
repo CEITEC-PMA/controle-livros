@@ -7,7 +7,12 @@ const createUnidade = {
     email: Joi.string().required().email(),
     inep: Joi.string().required(),
     fone: Joi.string().required(),
-    coordinates: Joi.array().items(Joi.number()).length(2).required(),
+    location: Joi.object()
+      .keys({
+        type: Joi.string(),
+        coordinates: Joi.array().items(Joi.number()).required().length(2),
+      })
+      .required(),
     endereco: {
       cep: Joi.string().required(),
       logradouro: Joi.string().required(),
