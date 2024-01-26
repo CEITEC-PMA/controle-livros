@@ -126,7 +126,8 @@ const modularUserById = async (userId, updateBody) => {
   user.ativo = true;
   await user.save();
   await unidade.save();
-  return user;
+  const userWithUnidadeName = await User.findById(user.id).populate('unidadeId', 'nome');
+  return userWithUnidadeName;
 };
 
 const removeModularUserById = async (userId, updateBody) => {
