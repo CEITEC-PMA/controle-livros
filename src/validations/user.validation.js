@@ -20,7 +20,7 @@ const getUsers = {
   }),
 };
 
-const getUser = {
+const getUserById = {
   params: Joi.object().keys({
     userId: Joi.string().custom(objectId),
   }),
@@ -83,7 +83,7 @@ const removeModulacaoUser = {
 module.exports = {
   createUser,
   getUsers,
-  getUser,
+  getUserById,
   userUpdate,
   modularUser,
   deleteUser,
