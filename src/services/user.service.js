@@ -48,7 +48,7 @@ const getUserById = async (id) => {
 };
 
 const getUserByIdWithUnidade = async (id) => {
-  const user = await User.findById(id).populate('unidadeId');
+  const user = await User.findById(id).populate('unidadeId', 'nome');
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -126,7 +126,8 @@ const modularUserById = async (userId, updateBody) => {
   user.ativo = true;
   await user.save();
   await unidade.save();
-  return user;
+  const userWithUnidadeName = await User.findById(user.id).populate('unidadeId', 'nome');
+  return userWithUnidadeName;
 };
 
 const removeModularUserById = async (userId, updateBody) => {
@@ -144,7 +145,8 @@ const removeModularUserById = async (userId, updateBody) => {
 
   await user.save();
   await unidade.save();
-  return user;
+  const userWithUnidadeName = await User.findById(user.id).populate('unidadeId', 'nome');
+  return userWithUnidadeName;
 };
 
 const updateAcessoTrue = async (username) => {
