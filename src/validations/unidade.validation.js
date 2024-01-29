@@ -55,7 +55,12 @@ const updateUnidadeId = {
       nome: Joi.string().optional(),
       fone: Joi.string().optional(),
       email: Joi.string().optional().email(),
-      coordinates: Joi.array().items(Joi.number()).length(2).optional(),
+      location: Joi.object()
+        .keys({
+          type: Joi.string(),
+          coordinates: Joi.array().items(Joi.number()).required().length(2),
+        })
+        .optional(),
       endereco: {
         cep: Joi.string().optional(),
         logradouro: Joi.string().optional(),
