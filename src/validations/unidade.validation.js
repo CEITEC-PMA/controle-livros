@@ -3,6 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createUnidade = {
   body: Joi.object().keys({
+    userId: Joi.required().custom(objectId),
     nome: Joi.string().required(),
     email: Joi.string().required().email(),
     inep: Joi.string().required(),
@@ -48,7 +49,7 @@ const updateUnidadeId = {
   }),
   body: Joi.object()
     .keys({
-      userId: Joi.array().items(Joi.string()).optional().allow(''),
+      userId: Joi.required().custom(objectId),
       turmaId: Joi.array().items(Joi.string()).optional().allow(''),
       funcionarioId: Joi.array().items(Joi.string()).optional().allow(''),
       inep: Joi.number().optional(),

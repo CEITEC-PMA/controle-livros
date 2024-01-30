@@ -15,6 +15,7 @@ const createUnidade = async (userBody) => {
   }
 
   const unidade = await Unidade.create({
+    userId: userBody.userId,
     inep: userBody.inep,
     nome: userBody.nome,
     email: userBody.email,
