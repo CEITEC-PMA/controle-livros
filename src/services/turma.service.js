@@ -1,7 +1,6 @@
 const httpStatus = require('http-status');
-const { Turma } = require('../models');
+const { Turma, Unidade } = require('../models');
 const ApiError = require('../utils/ApiError');
-const Unidade = require('../models/unidade.model');
 const { getUnidadeById } = require('./unidade.service');
 
 /**
@@ -10,14 +9,16 @@ const { getUnidadeById } = require('./unidade.service');
  * @returns {Promise<User>}
  */
 const createTurma = async (userBody) => {
+  const { unidadeId, nameTurma, qtdeAlunos, qtdeProf } = userBody;
+
   const turma = await Turma.create({
-    unidadeId: userBody.unidadeId,
-    nameTurma: userBody.nameTurma,
-    qtdeAlunos: userBody.qtdeAlunos,
-    qtdeProf: userBody.qtdeProf,
+    unidadeId,
+    nameTurma,
+    qtdeAlunos,
+    qtdeProf,
   });
 
-  const unidade = await Unidade.findById(userBody.unidadeId);
+  const unidade = await Unidade.findById(unidadeId);
   await unidade.turmaId.push(turma.id);
   await unidade.save();
   return turma;
