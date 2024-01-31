@@ -10,14 +10,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('create'), validate(turmaValidation.createTurma), turmaController.createTurma)
-  .get(auth('create'), validate(turmaValidation.turmaGetAll), turmaController.turmaGetAll);
+  .post(auth('createTurma'), validate(turmaValidation.createTurma), turmaController.createTurma)
+  .get(auth('createTurma'), validate(turmaValidation.turmaGetAll), turmaController.turmaGetAll);
 
 router
   .route('/:turmaId')
-  .get(auth('create'), validate(turmaValidation.showTurmaId), turmaController.showTurmaId)
-  .patch(auth('create'), validate(turmaValidation.updateTurma), turmaController.updateTurma)
-  .delete(auth('create'), validate(turmaValidation.deleteTurma), turmaController.deleteTurma);
+  .get(auth('createTurma'), validate(turmaValidation.showTurmaId), turmaController.showTurmaId)
+  .patch(auth('createTurma'), validate(turmaValidation.updateTurma), turmaController.updateTurma)
+  .delete(auth('createTurma'), validate(turmaValidation.deleteTurma), turmaController.deleteTurma);
 
 module.exports = router;
 
