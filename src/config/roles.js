@@ -1,6 +1,7 @@
 const allRoles = {
   user: ['me'],
   adminUnidade: ['me', 'createTurma', 'createUser'],
+  adminAnalista: ['me', 'createTurma', 'createUser'],
   admin: ['me', 'createTurma', 'createUser', 'createUnidade'],
 };
 
