@@ -12,8 +12,8 @@ const createTurma = catchAsync(async (req, res) => {
 const turmaGetAll = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role', 'unidadeId']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await turmaService.queryTurmas(filter, options);
-  res.send(result);
+  const results = await turmaService.queryTurmas(filter, options);
+  res.status(httpStatus.OK).send(results);
 });
 
 const showTurmaId = catchAsync(async (req, res) => {
